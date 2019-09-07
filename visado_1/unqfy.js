@@ -4,6 +4,12 @@ const fs = require('fs'); // para cargar/guarfar unqfy
 
 
 class UNQfy {
+  
+    constructor (_listTracks,_listAlbums,_listArtists) {
+      this.tracks = _listTracks ;
+      this.albums = _listAlbums ;
+      this.artists = _listArtists ;
+    }
 
   // artistData: objeto JS con los datos necesarios para crear un artista
   //   artistData.name (string)
