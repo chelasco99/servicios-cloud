@@ -5,17 +5,22 @@ const fs = require('fs'); // para cargar/guarfar unqfy
 
 class UNQfy {
   
-    constructor (_listTracks,_listAlbums,_listArtists) {
-      this.tracks = _listTracks ;
-      this.albums = _listAlbums ;
-      this.artists = _listArtists ;
+    constructor () {
+      this.tracks = [] ;
+      this.albums = [] ;
+      this.artists = [] ;
+      this.playLists = [] ;
     }
 
   // artistData: objeto JS con los datos necesarios para crear un artista
   //   artistData.name (string)
   //   artistData.country (string)
   // retorna: el nuevo artista creado
+
   addArtist(artistData) {
+    artistData = new Artista(name = artistData.name , country = artistData.country)
+    this.artists.push(artistData)
+    
   /* Crea un artista y lo agrega a unqfy.
   El objeto artista creado debe soportar (al menos):
     - una propiedad name (string)
