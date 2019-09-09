@@ -1,13 +1,14 @@
 
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
+const Artista = require('./exports/artist.js')
+const Album = requiere('./exports/album.js')
+const Track = require('./exports/track.js')
 
 
 class UNQfy {
   
     constructor () {
-      this.tracks = [] ;
-      this.albums = [] ;
       this.artists = [] ;
       this.playLists = [] ;
     }
@@ -18,8 +19,13 @@ class UNQfy {
   // retorna: el nuevo artista creado
 
   addArtist(artistData) {
-    artistData = new Artista(name = artistData.name , country = artistData.country)
-    this.artists.push(artistData)
+   if(!this.artists.includes(artistData.name)){ 
+    artist = new Artista(name = artistData.name , country = artistData.country)
+    this.artists.push(artist)
+    return artist
+   } else{
+      throw Error("El artista ya se encuentra en el sistema")
+   } 
     
   /* Crea un artista y lo agrega a unqfy.
   El objeto artista creado debe soportar (al menos):
@@ -39,6 +45,14 @@ class UNQfy {
      - una propiedad name (string)
      - una propiedad year (number)
   */
+    artist = this.getArtistById(artistId)
+    if(!artist.albums.includes(albumData.name)){
+      album = new Album(name = albumData.name, year = albumData.year)
+      this.albums.push(album)
+      return album
+    }else{
+      throw Error("Ya existe un album con ese nombre")
+    }
   }
 
 
@@ -57,7 +71,13 @@ class UNQfy {
   }
 
   getArtistById(id) {
-
+      let artist = this.artists.find(artist => artist.id == id)
+      if(artist != undefined){
+        return artist
+      }
+      else{
+        throw Error("No se encontro un artista con ese id")
+      }
   }
 
   getAlbumById(id) {
