@@ -48,10 +48,10 @@ class UNQfy {
      - una propiedad name (string)
      - una propiedad year (number)
   */
-    artist = this.getArtistById(artistId)
+    let artist = this.getArtistById(artistId)
     if(!artist.hasAlbumName(albumData.name)){
-      album = new Album(albumData.name, albumData.year)
-      this.artist.albums.push(album)
+      let album = new Album(artistId,albumData.name, albumData.year)
+      artist.albums.push(album)
       console.log('Se ha agregado el album con nombre' + album.name)
       return album
     }else{
