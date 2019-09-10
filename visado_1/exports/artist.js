@@ -3,7 +3,7 @@ const ID = require('./idGenerator')
 class Artista{
 
     constructor(name,country){
-      this.artistID = ID()
+      this.id = ID()
       this.name = name
       this.country = country
       this.albums = []
@@ -18,7 +18,7 @@ class Artista{
     }
 
     hasAlbumName(albumName){
-        return this.albums.find(album => album.name === albumName) !== undefined
+        return this.albums.find(album => album.name == albumName) !== undefined
     }
 
     removeAlbum(album){

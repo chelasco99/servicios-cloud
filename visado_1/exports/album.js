@@ -1,8 +1,11 @@
+const ID = require('./idGenerator')
+
 class Album {
-    constructor(_artistId,_albumName,_albumYear){
-        this.id = _albumId
-        this.name = _albumName
-        this.year = _albumYear
+    constructor(artistID,name,year){
+        this.id = ID()
+        this.artistID = artistID
+        this.name = name
+        this.year = year
         this.tracks = []
     }
 
