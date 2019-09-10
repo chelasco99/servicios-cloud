@@ -59,6 +59,17 @@ function addArtist(name, country) {
   saveUNQfy(unqfy)
 }
 
+function addAlbum(artistID,albumName,albumYear){
+  const unqfy = getUNQfy()
+  try{
+    unqfy.addAlbum(artistID,{albumName,albumYear})
+  }
+  catch(e){
+    handleError(e)
+  }
+  saveUNQfy(unqfy)
+}
+
 function main() {
   console.log('arguments: ');
   process.argv.forEach(argument => console.log(argument));
@@ -68,6 +79,9 @@ function main() {
 
   if(nombreComando == 'addArtist'){
     return addArtist(params[1],params[2])
+  }
+  if(nombreComando == 'addAlbum'){
+    return addAlbum(params[1],params[2],params[3])
   }
   
 }

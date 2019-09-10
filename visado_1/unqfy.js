@@ -76,11 +76,11 @@ class UNQfy {
 
   getArtistById(id) {
       let artist = this.artists.find(artist => artist.id === id)
-      if(artist != undefined){
+      if(artist !== undefined){
         return artist
       }
       else{
-        throw Error("No se encontro un artista con ese id")
+        throw Error("No se encontro un artista con el id" + id)
       }
   }
 
@@ -144,7 +144,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy,Artista,ID];
+    const classes = [UNQfy,Artista,ID,Album];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }
