@@ -1,7 +1,9 @@
+const ID = require('./idGenerator')
+
 class Artista{
 
     constructor(name,country){
-      this.id = 1
+      this.artistID = ID()
       this.name = name
       this.country = country
       this.albums = []

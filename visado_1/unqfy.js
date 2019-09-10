@@ -4,6 +4,7 @@ const fs = require('fs'); // para cargar/guarfar unqfy
 const Artista = require('./exports/artist.js')
 const Album = require('./exports/album.js')
 const Track = require('./exports/track.js')
+const ID = require('./exports/idGenerator')
 
 
 class UNQfy {
@@ -17,9 +18,9 @@ class UNQfy {
   //   artistData.name (string)
   //   artistData.country (string)
   // retorna: el nuevo artista creado
-
+  
   addArtist(artistData) {
-   if(!this.artists.includes(artistData.name)){ 
+   if(!this.existArtist(artistData.name)){ 
     let artist = new Artista(artistData.name,artistData.country)
     this.artists.push(artist)
     console.log('Se ha agregado el artista ' + artistData.name + ' con el id ' + artist.artistID)
@@ -120,6 +121,10 @@ class UNQfy {
 
   }
 
+  existArtist(artistName){
+    return this.artists.find(artist => artist.name === artistName) !== undefined
+  }
+
   save(filename) {
     const listenersBkp = this.listeners;
     this.listeners = [];
@@ -133,7 +138,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy];
+    const classes = [UNQfy,Artista,ID];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }
