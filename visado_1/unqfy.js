@@ -23,7 +23,7 @@ class UNQfy {
    if(!this.existArtist(artistData.name)){ 
     let artist = new Artista(artistData.name,artistData.country)
     this.artists.push(artist)
-    console.log('Se ha agregado el artista ' + artistData.name + ' con el id ' + artist.artistID)
+    console.log('Se ha agregado el artista ' + artistData.name + ' con el id ' + artist.id)
     return artist
    } else{
       throw Error("El artista ya se encuentra en el sistema")
