@@ -1,20 +1,26 @@
 class Artista{
-    constructor(_artistName,_artistCountry){
-      this.id = "nuevo id <----- codigo para nuevo id? algo que genere nuevos ids"
-      this.name = _artistName
-      this.country = _artistCountry
+
+    constructor(name,country){
+      this.id = 1
+      this.name = name
+      this.country = country
       this.albums = []
     }
-    addAlbum(albumName){
-        if(!this.albums.includes(albumName)){
-            this.albums.push(albumName)
+
+    addAlbum(album){
+        if(!this.albums.includes(album)){
+            this.albums.push(album)
         } else{
-            throw Error("El nombre del album ya existe")
+            throw Error("El album ya existe")
         }
     }
 
-    hasAlbum(albumName){
+    hasAlbumName(albumName){
         return this.albums.includes(albumName)
+    }
+
+    removeAlbum(album){
+        this.albums.pop(album)
     }
 }
 

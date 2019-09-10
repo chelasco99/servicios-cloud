@@ -1,5 +1,3 @@
-
-
 const fs = require('fs'); // necesitado para guardar/cargar unqfy
 const unqmod = require('./unqfy'); // importamos el modulo unqfy
 
@@ -46,13 +44,17 @@ function saveUNQfy(unqfy, filename = 'data.json') {
 
 */
 
+function handleError(e){
+  console.log(e.message)
+}
+
 function addArtist(name, country) {
   const unqfy = getUNQfy()
   try {
-      unqfy.addArtist({name: name, country: country});
+      unqfy.addArtist({name,country});
   }
   catch (e) {
-      console.log(e.message)
+      handleError(e)
   }
   saveUNQfy(unqfy)
 }

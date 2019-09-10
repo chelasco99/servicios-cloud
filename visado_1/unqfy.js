@@ -2,7 +2,7 @@
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const Artista = require('./exports/artist.js')
-const Album = requiere('./exports/album.js')
+const Album = require('./exports/album.js')
 const Track = require('./exports/track.js')
 
 
@@ -20,8 +20,9 @@ class UNQfy {
 
   addArtist(artistData) {
    if(!this.artists.includes(artistData.name)){ 
-    artist = new Artista(name = artistData.name , country = artistData.country)
+    let artist = new Artista(artistData.name,artistData.country)
     this.artists.push(artist)
+    console.log('Se ha agregado el artista ' + artistData.name + ' con el id ' + artist.artistID)
     return artist
    } else{
       throw Error("El artista ya se encuentra en el sistema")
