@@ -18,7 +18,7 @@ class Artista{
     }
 
     hasAlbumName(albumName){
-        return this.albums.includes(albumName)
+        return this.albums.find(album => album.name === albumName) !== undefined
     }
 
     removeAlbum(album){

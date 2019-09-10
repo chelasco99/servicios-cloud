@@ -28,6 +28,7 @@ class UNQfy {
    } else{
       throw Error("El artista ya se encuentra en el sistema")
    } 
+  
     
   /* Crea un artista y lo agrega a unqfy.
   El objeto artista creado debe soportar (al menos):
@@ -48,9 +49,10 @@ class UNQfy {
      - una propiedad year (number)
   */
     artist = this.getArtistById(artistId)
-    if(!artist.albums.includes(albumData.name)){
-      album = new Album(name = albumData.name, year = albumData.year)
-      this.albums.push(album)
+    if(!artist.hasAlbumName(albumData.name)){
+      album = new Album(albumData.name, albumData.year)
+      this.artist.albums.push(album)
+      console.log('Se ha agregado el album con nombre' + album.name)
       return album
     }else{
       throw Error("Ya existe un album con ese nombre")
@@ -73,7 +75,7 @@ class UNQfy {
   }
 
   getArtistById(id) {
-      let artist = this.artists.find(artist => artist.id == id)
+      let artist = this.artists.find(artist => artist.id === id)
       if(artist != undefined){
         return artist
       }
@@ -123,6 +125,10 @@ class UNQfy {
 
   existArtist(artistName){
     return this.artists.find(artist => artist.name === artistName) !== undefined
+  }
+
+  existAlbum(albumName){
+    return this.artists.albums.find(album => album.name === albumName) !== undefined
   }
 
   save(filename) {
