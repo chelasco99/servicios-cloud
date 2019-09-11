@@ -53,8 +53,12 @@ function addArtist(name, country) {
   try {
       unqfy.addArtist({name,country});
   }
-  catch (e) {
+  catch(e) {
+    if(e.name === 'ArtistExistError'){
       handleError(e)
+    }else{
+      throw e
+    }
   }
   saveUNQfy(unqfy)
 }
@@ -65,7 +69,11 @@ function addAlbum(artistID,albumName,albumYear){
     unqfy.addAlbum(artistID,{albumName,albumYear})
   }
   catch(e){
-    handleError(e)
+   if(e.name === "AlbumExistError"){
+      handleError(e)
+   }else{
+     throw e
+   } 
   }
   saveUNQfy(unqfy)
 }

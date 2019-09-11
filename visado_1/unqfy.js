@@ -5,6 +5,8 @@ const Artista = require('./exports/artist.js')
 const Album = require('./exports/album.js')
 const Track = require('./exports/track.js')
 const ID = require('./exports/idGenerator')
+const ArtistExistError = require('./exports/errors/artistError')
+const AlbumExistError = require('./exports/errors/albumExistError')
 
 
 class UNQfy {
@@ -26,7 +28,7 @@ class UNQfy {
     console.log('Se ha agregado el artista ' + artistData.name + ' con el id ' + artist.id)
     return artist
    } else{
-      throw Error("El artista ya se encuentra en el sistema")
+      throw new ArtistExistError()
    } 
   
     
@@ -55,7 +57,7 @@ class UNQfy {
       console.log('Se ha agregado el album con nombre' + album.name)
       return album
     }else{
-      throw Error("Ya existe un album con ese nombre")
+      throw new AlbumExistError()
     }
   }
 
