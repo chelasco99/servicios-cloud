@@ -13,8 +13,8 @@ function createAndAddAlbum(unqfy, artistId, albumName, albumYear) {
   return unqfy.addAlbum(artistId, { name: albumName, year: albumYear });
 }
 
-function createAndAddTrack(unqfy, albumName, trackName, trackDuraction, trackGenres) {
-  return unqfy.addTrack(albumName, { name: trackName, duration: trackDuraction, genres: trackGenres });
+function createAndAddTrack(unqfy, albumId, trackName, trackDuraction, trackGenres) {
+  return unqfy.addTrack(albumId, { name: trackName, duration: trackDuraction, genres: trackGenres });
 }
 
 

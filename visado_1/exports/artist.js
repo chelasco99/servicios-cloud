@@ -29,8 +29,13 @@ class Artista{
         let artistTracks = []
         this.albums.forEach(function(elem){
             artistTracks.concat(elem.tracks)
-        },tracks)
+        },artistTracks)
     }
+
+    searchAlbumsByName(name){
+        return this.albums.filter(alb => alb.name.includes(name))
+    }
+    
 }
 
 

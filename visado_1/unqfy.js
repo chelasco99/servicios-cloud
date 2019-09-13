@@ -7,6 +7,7 @@ const Track = require('./exports/track.js')
 const ID = require('./exports/idGenerator')
 const ArtistExistError = require('./exports/errors/artistError')
 const AlbumExistError = require('./exports/errors/albumExistError')
+const Playlist = require('./exports/playlist.js')
 
 
 class UNQfy {
@@ -75,7 +76,7 @@ class UNQfy {
       - una propiedad genres (lista de strings)
   */
     let album = this.getAlbumById(albumId)
-    if(!album.hasTrack(track)){
+    if(!album.hasTrack(trackData.name)){
       let track = new Track(albumId,trackData.name,trackData.duration,trackData.genres)
       album.addTrack(track)
       console.log("Se ha agregado el track con nombre " + trackData.name+ " al album con nombre" + album.name)
@@ -96,11 +97,10 @@ class UNQfy {
   }
 
   getAlbumById(id) {
-    let res = []
-   for(let i =0; i>this.artists.length;i++){
-     res.concat(this.artists[i].albums)
-   }
-    let album = res.find(album => album.id == id)
+    let albumes = this.artists.map(artist => artist.albums).reduce(function(a,b){
+        a.concat(b)
+    })
+    let album = albumes.find(album => album.id === id)
     if(album !== undefined){
       return album
     }else{
@@ -145,6 +145,38 @@ class UNQfy {
 
   }
 
+  searchByName(name){
+    let tracks =this.searchTracksByName(name)
+    let albums =(this.searchAlbumsByName(name))
+    let artistas = (this.searchArtistsByName(name))
+    let playlists = this.searchPlaylistByName(name)
+
+    return {tracks,albums,artistas,playlists}
+  }
+
+  searchTracksByName(name){
+    let tracks = []
+    this.artists.forEach(function(elem){
+       tracks.concat(elem.getTracks())
+    })
+    return tracks.filter(track => track.name.includes(name))
+  }
+
+  searchAlbumsByName(name){
+    let albums = []
+    this.artists.forEach(function(elem){
+      albums.concat(elem.albums)
+    })
+    return albums.filter(album => album.name.includes(name))
+  }
+  
+  searchPlaylistByName(name){
+    return this.playLists.filter(playlist => playlist.name.includes(name))
+  }
+
+  searchArtistsByName(name){
+    return this.artists.filter(artist => artist.name.includes(name))
+  }
 
   // name: nombre de la playlist
   // genresToInclude: array de generos
@@ -157,7 +189,16 @@ class UNQfy {
       * un metodo duration() que retorne la duración de la playlist.
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
-
+    let allTracks = []
+    for(let i =0; i<this.artists.length;i++){
+       allTracks.concat(this.artists[i].getTracks())
+    }
+    let tracksToPlay = allTracks.filter(track => track.duration>maxDuration && track.hasAtLeatsOne(genresToInclude))
+    let playlist = new Playlist(name)
+    tracksToPlay.forEach(function(elem){
+      playlist.addTrack(elem)
+    })
+    return playlist
   }
 
   existArtist(artistName){
@@ -181,7 +222,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy,Artista,ID,Album];
+    const classes = [UNQfy,Artista,ID,Album,Track,Playlist];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }

@@ -18,7 +18,11 @@ class Album {
     }
 
     hasTrack(trackName){
-        return this.tracks.includes(trackName)
+        return this.tracks.find(track => track.name === trackName) !== undefined
+    }
+
+    hasTrackByName(trackName){
+        return this.tracks.filter(track => track.name.includes(trackName))
     }
 }
 

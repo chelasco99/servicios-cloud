@@ -1,9 +1,9 @@
-class Track {
-    constructor(_albumID,_trackName,_trackDuration,_trackGenre){
-        this.albumID = _albumID
-        this.name = _trackName
-        this.duration = _trackDuration
-        this.genres = [_trackGenre]
+class Track{
+    constructor(albumId,name,duration,genre){
+        this.id = albumId
+        this.name = name
+        this.duration = duration
+        this.genres = genre
     }
     addGenre(genreName){
         if(!this.genres.includes(genreName)){
@@ -16,4 +16,10 @@ class Track {
     hasGenre(genreName){
         return this.genres.includes(genreName)
     }
+
+    hasAtLeatsOne(genresNames){
+        return genresNames.some(genre => this.genres.indexOf(genre) >= 0)
+    }
 }
+
+module.exports = Track
