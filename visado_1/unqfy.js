@@ -74,6 +74,15 @@ class UNQfy {
       - una propiedad duration (number),
       - una propiedad genres (lista de strings)
   */
+    let album = this.getAlbumById(albumId)
+    if(!album.hasTrack(track)){
+      let track = new Track(albumId,trackData.name,trackData.duration,trackData.genres)
+      album.addTrack(track)
+      console.log("Se ha agregado el track con nombre " + trackData.name+ " al album con nombre" + album.name)
+      return track
+    } else{
+       throw Error("El album ya tiene ese track")
+    }
   }
 
   getArtistById(id) {
@@ -88,10 +97,22 @@ class UNQfy {
 
   getAlbumById(id) {
 
+    let album = this.artists.albums.find(album => album.id === id)
+    if(artist !== undefined){
+      return album
+    }else{
+      throw Error("No existe un album con ese id")
+    }
+
   }
 
   getTrackById(id) {
-
+    let track = this.artists.albums.tracks.find(track => track.id === id)
+    if (track !== undefined) {
+      return track
+    }else{
+      throw Error("No existe el track con ese id" + id)
+    }
   }
 
   getPlaylistById(id) {
