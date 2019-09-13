@@ -96,9 +96,12 @@ class UNQfy {
   }
 
   getAlbumById(id) {
-
-    let album = this.artists.albums.find(album => album.id === id)
-    if(artist !== undefined){
+    let res = []
+   for(let i =0; i>this.artists.length;i++){
+     res.concat(this.artists[i].albums)
+   }
+    let album = res.find(album => album.id == id)
+    if(album !== undefined){
       return album
     }else{
       throw Error("No existe un album con ese id")
