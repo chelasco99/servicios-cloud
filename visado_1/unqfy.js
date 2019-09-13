@@ -128,6 +128,17 @@ class UNQfy {
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
+    let artist = this.artists.find(artist => artist.name === artistName)
+    if(!artist == undefined){
+      let artistTracks = []
+      for(let i = 0; artist.albums.length;i++){
+        artistTracks.concat(albums[i].tracks)
+      }
+      return artistTracks
+    }else{
+      throw Error("No existe un artista con el nombre " + artistName);
+      
+    }
 
   }
 
