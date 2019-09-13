@@ -24,7 +24,14 @@ class Artista{
     removeAlbum(album){
         this.albums.pop(album)
     }
+
+    getTracks(){
+        let artistTracks = []
+        this.albums.forEach(function(elem){
+            artistTracks.concat(elem.tracks)
+        },tracks)
+    }
 }
 
 
-module.exports = Artista  
+module.exports = Artista
