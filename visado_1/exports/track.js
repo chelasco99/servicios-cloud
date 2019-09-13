@@ -1,6 +1,6 @@
 class Track {
-    constructor(_albumName,_trackName,_trackDuration,_trackGenre){
-        this.albumName = _albumName
+    constructor(_albumID,_trackName,_trackDuration,_trackGenre){
+        this.albumID = _albumID
         this.name = _trackName
         this.duration = _trackDuration
         this.genres = [_trackGenre]

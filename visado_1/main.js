@@ -78,6 +78,21 @@ function addAlbum(artistID,albumName,albumYear){
   saveUNQfy(unqfy)
 }
 
+function addTrack(albumID,trackName,trackDuration,trackGenre){
+  const unqfy = getUNQfy()
+  try{
+    unqfy.addTrack(albumID,{name:trackName,duration:trackDuration,genre:trackGenre})
+  }
+  catch(e){
+    if(e.name === "TrackExistError"){
+      handleError(e)
+    }else{
+      throw e
+    }
+  }
+  saveUNQfy(unqfy)
+}
+
 function main() {
   console.log('arguments: ');
   process.argv.forEach(argument => console.log(argument));
