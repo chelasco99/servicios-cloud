@@ -19,72 +19,115 @@
       "4": "__00009__",
       "5": "__00010__",
       "6": "__00011__",
-      "7": "__00012__"
+      "7": "__00012__",
+      "8": "__00013__",
+      "9": "__00014__"
     },
     "__00003__": {},
     "__00004__": {},
     "__00005__": {
-      "artistID": "_n1ef0pp45",
+      "id": 1,
       "name": "P",
       "country": "p",
-      "albums": "__00013__",
-      "id": 1
+      "albums": "__00015__",
+      "artistID": "_n1ef0pp45"
     },
     "__00006__": {
-      "artistID": "_qdciosx2a",
+      "id": 1,
       "name": "P",
       "country": "d",
-      "albums": "__00014__",
-      "id": 1
+      "albums": "__00016__",
+      "artistID": "_qdciosx2a"
     },
     "__00007__": {
-      "artistID": "_5k55ufekc",
+      "id": 1,
       "name": "P",
       "country": "d",
-      "albums": "__00015__",
-      "id": 1
+      "albums": "__00017__",
+      "artistID": "_5k55ufekc"
     },
     "__00008__": {
-      "artistID": "_0xwm4ti2w",
+      "id": 1,
       "name": "asd",
       "country": "e",
-      "albums": "__00016__",
-      "id": 1
+      "albums": "__00018__",
+      "artistID": "_0xwm4ti2w"
     },
     "__00009__": {
-      "artistID": "_u5hla8pbo",
+      "id": "_xq42cwdrn",
       "name": "ede",
       "country": "eed",
-      "albums": "__00017__",
-      "id": "_xq42cwdrn"
+      "albums": "__00019__",
+      "artistID": "_u5hla8pbo"
     },
     "__00010__": {
-      "artistID": "_agmrfm0ib",
+      "id": 1,
       "name": "gERR",
       "country": "eed",
-      "albums": "__00018__",
-      "id": 1
+      "albums": "__00020__",
+      "artistID": "_agmrfm0ib"
     },
     "__00011__": {
-      "artistID": "_hox19mgia",
+      "id": "_wqp1z94hn",
       "name": "eee",
       "country": "eed",
-      "albums": "__00019__"
+      "albums": "__00021__",
+      "artistID": "_hox19mgia"
     },
     "__00012__": {
-      "artistID": "_y5tggy3dn",
+      "id": "_iwfen2rcp",
       "name": "Pe",
       "country": "eed",
-      "albums": "__00020__"
+      "albums": "__00022__",
+      "artistID": "_y5tggy3dn"
     },
-    "__00013__": {},
-    "__00014__": {},
+    "__00013__": {
+      "id": "_ftr8nuavc",
+      "name": "Pedro",
+      "country": "Rodriguez",
+      "albums": "__00023__"
+    },
+    "__00014__": {
+      "id": "q54gueter",
+      "name": "Pith",
+      "country": "Argentina",
+      "albums": "__00024__"
+    },
     "__00015__": {},
     "__00016__": {},
     "__00017__": {},
     "__00018__": {},
     "__00019__": {},
-    "__00020__": {}
+    "__00020__": {},
+    "__00021__": {},
+    "__00022__": {},
+    "__00023__": {
+      "0": "__00025__",
+      "1": "__00026__"
+    },
+    "__00024__": {
+      "0": "__00027__"
+    },
+    "__00025__": {
+      "id": "_296dxids0",
+      "artistID": "_ftr8nuavc",
+      "tracks": "__00028__"
+    },
+    "__00026__": {
+      "id": "fsn27g5jj",
+      "artistID": "_ftr8nuavc",
+      "name": "Probando2",
+      "year": "1990",
+      "tracks": "__00029__"
+    },
+    "__00027__": {
+      "id": "axvm5gq7q",
+      "artistID": "q54gueter",
+      "tracks": "__00030__"
+    },
+    "__00028__": {},
+    "__00029__": {},
+    "__00030__": {}
   },
   "types": {
     "__00001__": "UNQfy",
@@ -99,13 +142,23 @@
     "__00010__": "Artista",
     "__00011__": "Artista",
     "__00012__": "Artista",
-    "__00013__": "Array",
-    "__00014__": "Array",
+    "__00013__": "Artista",
+    "__00014__": "Artista",
     "__00015__": "Array",
     "__00016__": "Array",
     "__00017__": "Array",
     "__00018__": "Array",
     "__00019__": "Array",
-    "__00020__": "Array"
+    "__00020__": "Array",
+    "__00021__": "Array",
+    "__00022__": "Array",
+    "__00023__": "Array",
+    "__00024__": "Array",
+    "__00025__": "Album",
+    "__00026__": "Album",
+    "__00027__": "Album",
+    "__00028__": "Array",
+    "__00029__": "Array",
+    "__00030__": "Array"
   }
 }

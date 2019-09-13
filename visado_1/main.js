@@ -66,7 +66,7 @@ function addArtist(name, country) {
 function addAlbum(artistID,albumName,albumYear){
   const unqfy = getUNQfy()
   try{
-    unqfy.addAlbum(artistID,{albumName,albumYear})
+    unqfy.addAlbum(artistID,{name:albumName,year:albumYear})
   }
   catch(e){
    if(e.name === "AlbumExistError"){
@@ -95,3 +95,6 @@ function main() {
 }
 
 main();
+const unqfy = getUNQfy()
+console.log(unqfy.artists)
+console.log(unqfy.artists[8])

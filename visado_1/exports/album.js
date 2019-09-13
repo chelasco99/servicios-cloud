@@ -22,4 +22,7 @@ class Album {
     }
 }
 
+let album = new Album("q54gueter","Dasd", 1990)
+console.log(album)
+
 module.exports = Album
