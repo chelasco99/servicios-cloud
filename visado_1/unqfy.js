@@ -96,10 +96,24 @@ class UNQfy {
       }
   }
 
-  getAlbumById(id) {
-    let albumes = this.artists.map(artist => artist.albums).reduce(function(a,b){
-        a.concat(b)
+  getAlbumsDeArtistas() {
+    if (this.artists.length === 0) {
+        return []
+    }
+    return this.artists.map(artist => artist.albums).reduce((a, b) => {
+        return a.concat(b)
     })
+  }
+
+  getTracksDeArtistas() {
+    let allTracks = this.getAlbumsDeArtistas().map(album => album.tracks).reduce((a, b) => {
+      return a.concat(b)
+    })
+    return allTracks
+  }
+
+  getAlbumById(id) {
+    let albumes = this.getAlbumsDeArtistas()
     let album = albumes.find(album => album.id === id)
     if(album !== undefined){
       return album
@@ -110,7 +124,8 @@ class UNQfy {
   }
 
   getTrackById(id) {
-    let track = this.artists.albums.tracks.find(track => track.id === id)
+    let allTracks = this.getTracksDeArtistas()
+    let track = allTracks.find(track => track.id === id)
     if (track !== undefined) {
       return track
     }else{

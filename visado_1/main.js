@@ -106,10 +106,13 @@ function main() {
   if(nombreComando == 'addAlbum'){
     return addAlbum(params[1],params[2],params[3])
   }
+  if(nombreComando == 'addTrack'){
+    return addTrack(params[1],params[2],params[3],params[4])
+  }
   
 }
 
 main();
 const unqfy = getUNQfy()
-console.log(unqfy.artists)
-console.log(unqfy.artists[8])
+console.log(unqfy.getAlbumById('fsn27g5jj'))
+//console.log(unqfy.getAlbumsDeArtistas())
