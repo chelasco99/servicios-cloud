@@ -55,7 +55,7 @@ class UNQfy {
     if(!artist.hasAlbumName(albumData.name)){
       let album = new Album(artistId,albumData.name, albumData.year)
       artist.albums.push(album)
-      console.log('Se ha agregado el album con nombre' + album.name)
+      console.log('Se ha agregado el album con nombre ' + album.name)
       return album
     }else{
       throw new AlbumExistError()
@@ -127,6 +127,15 @@ class UNQfy {
 
   }
 
+  getArtistByName(artistName){
+    let artist = this.artists.find(artist => artist.name === artistName)
+    if(artist !== undefined){
+      return artist
+    } else{
+      throw Error("No existe el artista con nombre " + artistName)
+    }
+  }
+
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres) {
@@ -143,7 +152,7 @@ class UNQfy {
       let artistTracks = artist.getTracks()
       return artistTracks
     }else{
-      throw Error("No existe el artista con nombre" + artistName.name);
+      throw Error("No existe el artista con nombre " + artistName.name);
       
     }
 
@@ -209,6 +218,22 @@ class UNQfy {
     playlist.addTracks(tracksToPlay)
     this.playlists.push(playlist)
     return playlist
+  }
+
+  removeTrack(artistName,trackName){
+    let artist = this.getArtistByName(artistName.name)
+    if(artist !== undefined){
+      let album = artist.albums.find(album => album.hasTrack(trackName))
+      if(album !== undefined){
+        album.removeTrack(trackName)
+        this.playlists.map(playlist => playlist.removeTrack(trackName))
+        console.log("Se ha eliminado el track " + trackName + " del artista " + artistName.name + " correctamente")
+      }else{
+        throw Error("No se pudo eliminar el track " + trackName + " ya que no existe en ningun album")
+      } 
+    }else{
+      throw Error("No se pudo eliminar el track " + trackName + " ya que no existe ningun el artista " + artistName)
+    }
   }
 
   existArtist(artistName){
