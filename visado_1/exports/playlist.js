@@ -1,23 +1,36 @@
+const ID = require('./idGenerator')
 class Playlist{
-  constructor(name){
+  constructor(name,genresToInclude,maxDuration){
       this.name = name
+      this.playlistId = ID()
+      this.genresToInclude = genresToInclude
       this.tracks = []
+      this.maxDuration = maxDuration
+      this.currentDuration = 0
   }
 
   addTrack(track){
+    let duration = this.duration() + track.getDuration()
+    if(duration <= this.maxDuration){ 
      this.tracks.push(track)
+     this.currentDuration += track.getDuration()
+    }
   }
 
   duration(){
-      let res = 0
-      this.tracks.forEach(function(elem){
-         res+= elem.duration
-      },res)
+     return this.currentDuration
   }
 
   hasTrack(aTrack){
      return this.tracks.includes(aTrack)
   }
+
+  addTracks(aTrackList){
+     for(let track of aTrackList){
+        this.addTrack(track)
+     }
+  }
+
 }
 
 module.exports = Playlist

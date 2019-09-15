@@ -20,6 +20,10 @@ class Track{
     hasAtLeatsOne(genresNames){
         return genresNames.some(genre => this.genres.indexOf(genre) >= 0)
     }
+    
+    getDuration(){
+        return this.duration
+    }
 }
 
 module.exports = Track

@@ -14,7 +14,7 @@ class UNQfy {
   
     constructor () {
       this.artists = [] ;
-      this.playLists = [] ;
+      this.playlists = [] ;
     }
 
   // artistData: objeto JS con los datos necesarios para crear un artista
@@ -96,24 +96,8 @@ class UNQfy {
       }
   }
 
-  getAlbumsDeArtistas() {
-    if (this.artists.length === 0) {
-        return []
-    }
-    return this.artists.map(artist => artist.albums).reduce((a, b) => {
-        return a.concat(b)
-    })
-  }
-
-  getTracksDeArtistas() {
-    let allTracks = this.getAlbumsDeArtistas().map(album => album.tracks).reduce((a, b) => {
-      return a.concat(b)
-    })
-    return allTracks
-  }
-
   getAlbumById(id) {
-    let albumes = this.getAlbumsDeArtistas()
+    let albumes = this.getAllAlbums()
     let album = albumes.find(album => album.id === id)
     if(album !== undefined){
       return album
@@ -124,7 +108,7 @@ class UNQfy {
   }
 
   getTrackById(id) {
-    let allTracks = this.getTracksDeArtistas()
+    let allTracks = this.getAllTracks()
     let track = allTracks.find(track => track.id === id)
     if (track !== undefined) {
       return track
@@ -148,16 +132,29 @@ class UNQfy {
   getTracksMatchingArtist(artistName) {
     let artist = this.artists.find(artist => artist.name === artistName)
     if(!artist == undefined){
-      let artistTracks = []
-      for(let i = 0; artist.albums.length;i++){
-        artistTracks.concat(albums[i].tracks)
-      }
+      let artistTracks = getAllTracks()
       return artistTracks
     }else{
       throw Error("No existe un artista con el nombre " + artistName);
       
     }
 
+  }
+
+  getAllAlbums(){
+    if(this.artists.length === 0){
+      return [] // Si no hay artistas simplemente muestra una lista vacia
+    }
+    return this.artists.map(artist => artist.albums).reduce((a,b) => {
+      return a.concat(b)
+    })
+  }
+
+  getAllTracks(){
+    let allTracks = this.getAllAlbums().map(album => album.tracks).reduce(function (a,b) {
+      return a.concat(b)
+    })
+    return allTracks
   }
 
   searchByName(name){
@@ -169,28 +166,18 @@ class UNQfy {
     return {artists,albums,tracks,playlists}
   }
 
-searchTracksByName(name){
-    let tracks = []
-    this.artists.forEach(function(elem){
-      let ts= elem.getTracks()
-      tracks = tracks.concat(ts)
-    })
+  searchTracksByName(name){
+    let tracks = this.getAllTracks()
     return tracks.filter(track => track.name.includes(name))
   }
 
-
-  
   searchAlbumsByName(name){
-    let albums = []
-    this.artists.forEach(function(elem){
-      let as = elem.albums
-      albums = albums.concat(as)
-    })
+    let albums = this.getAllAlbums()
     return albums.filter(album => album.name.includes(name))
   }
   
   searchPlaylistByName(name){
-    return this.playLists.filter(playlist => playlist.name.includes(name))
+    return this.playlists.filter(playlist => playlist.name.includes(name))
   }
 
   searchArtistsByName(name){
@@ -208,18 +195,11 @@ searchTracksByName(name){
       * un metodo duration() que retorne la duración de la playlist.
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
-    let allTracks = []
-    for(let i =0; i<this.artists.length;i++){
-      let allts= this.artists[i].getTracks()
-      allTracks = allTracks.concat(allts)
-    }
-    let tracksToPlay = allTracks.filter(track => track.duration<maxDuration && track.hasAtLeatsOne(genresToInclude))
-    let playlist = new Playlist(name)
-    tracksToPlay.forEach(function(elem){
-      playlist.addTrack(elem)
-  
-    });
-    this.playLists = this.playLists.concat(playlist)
+    let allTracks = this.getAllTracks()
+    let tracksToPlay = allTracks.filter(track => track.hasAtLeatsOne(genresToInclude))
+    let playlist = new Playlist(name,genresToInclude,maxDuration)
+    playlist.addTracks(tracksToPlay)
+    this.playlists.push(playlist)
     return playlist
   }
 
