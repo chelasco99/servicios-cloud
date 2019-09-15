@@ -31,6 +31,14 @@ class Playlist{
      }
   }
 
+  removeTrack(trackName){
+     let trackToRemove = this.tracks.find(track => track.name === trackName)
+     if(trackToRemove !== undefined){
+        this.tracks = this.tracks.filter(track => track.name !== trackName)
+        this.currentDuration -= trackToRemove.getDuration()
+     }
+  }
+
 }
 
 module.exports = Playlist

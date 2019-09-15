@@ -20,17 +20,14 @@ class Album {
     hasTrack(trackName){
         return this.tracks.find(track => track.name === trackName) !== undefined
     }
-
-    hasTrackByName(trackName){
-        return this.tracks.filter(track => track.name.includes(trackName))
-    }
     
     getTracks(){
         return this.tracks;
     }
-}
 
-let album = new Album("q54gueter","Dasd", 1990)
-console.log(album)
+    removeTrack(trackName){
+        this.tracks = this.tracks.filter(track => track.name !== trackName)
+    }
+}
 
 module.exports = Album
