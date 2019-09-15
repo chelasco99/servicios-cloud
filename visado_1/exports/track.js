@@ -7,6 +7,7 @@ class Track{
         this.duration = duration
         this.genres = genre
     }
+    
     addGenre(genreName){
         if(!this.genres.includes(genreName)){
             this.genres.push(genreName)

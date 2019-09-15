@@ -39,6 +39,10 @@ class Playlist{
      }
   }
 
+  removeAllTracksAlbum(album) {
+     this.tracks = this.tracks.filter(track => track.albumId !== album.albumId)
+  }
+
 }
 
 module.exports = Playlist
