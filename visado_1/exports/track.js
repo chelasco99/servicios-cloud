@@ -1,6 +1,8 @@
+const ID = require('./idGenerator')
 class Track{
     constructor(albumId,name,duration,genre){
-        this.id = albumId
+        this.id = ID()
+        this.albumId = albumId
         this.name = name
         this.duration = duration
         this.genres = genre
