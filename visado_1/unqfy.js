@@ -237,18 +237,18 @@ class UNQfy {
   }
 
   removeAlbum(artistName,albumName) {
-    let artista = this.artists.find(art => art.name === artistName)
+    let artista = this.getArtistByName(artistName.name)
     if ( artista !== undefined) {
-      let album = artista.albums = artista.albums.find(album => album.name === albumName)
+      let album = artista.albums.find(album => album.name === albumName)
       if ( album !== undefined) {
         artista.albums = artista.albums.filter(album => album.name !== albumName)
         this.playlists.map(playlist => playlist.removeAllTracksAlbum(album))
-        console.log("Se ha eliminado el album")
+        console.log("Se ha eliminado el album " + albumName + " del artista" + artistName.name + " correctamente")
       }else {
-        throw Error("No se pudo eliminar el album ya que no existe")
+        throw Error("No se pudo eliminar el album " + albumName + " ya que no existe")
       }
     }else {
-      throw Error("No se pudo eliminar el album ya que no existe ningun artista")
+      throw Error("No se pudo eliminar el album " + albumName +" ya que no existe el artista " + artistName.name)
     }
   }
 
