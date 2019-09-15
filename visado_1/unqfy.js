@@ -118,24 +118,32 @@ class UNQfy {
   }
 
   getPlaylistById(id) {
+    let playList = this.playlists.find(playlist => playlist.playlistId === id)
+    if ( playList !== undefined) {
+      return playList
+    }else {
+      throw Error("No existe la playList con ese id" + id)
+    }
 
   }
 
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres) {
-
+    let allTracks = this.getAllTracks()
+    let tracks = allTracks.filter(track => track.hasAtLeatsOne(genres))
+    return tracks 
   }
 
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
-    let artist = this.artists.find(artist => artist.name === artistName)
-    if(!artist == undefined){
-      let artistTracks = getAllTracks()
+    let artist = this.artists.find(artist => artist.name === artistName.name)
+    if(artist !== undefined){
+      let artistTracks = artist.getTracks()
       return artistTracks
     }else{
-      throw Error("No existe un artista con el nombre " + artistName);
+      throw Error("No existe el artista con nombre" + artistName.name);
       
     }
 
