@@ -136,6 +136,16 @@ function removeTrack(artistName,trackName){
   saveUNQfy(unqfy)
 }
 
+function removeAlbum(artistName,trackName){
+  const unqfy = getUNQfy()
+  try{
+    unqfy.removeAlbum({name:artistName},trackName)
+  }catch(e){
+    throw e
+  }
+  saveUNQfy(unqfy)
+}
+
 function main() {
   console.log('arguments: ');
   process.argv.forEach(argument => console.log(argument));
@@ -169,6 +179,9 @@ function main() {
   }
   if(nombreComando == 'removeTrack'){
     return removeTrack(params[1],params[2])
+  }
+  if(nombreComando == 'removeAlbum'){
+    return removeAlbum(params[1],params[2])
   }
 }
 
