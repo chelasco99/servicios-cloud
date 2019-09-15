@@ -24,6 +24,10 @@ class Album {
     hasTrackByName(trackName){
         return this.tracks.filter(track => track.name.includes(trackName))
     }
+    
+    getTracks(){
+        return this.tracks;
+    }
 }
 
 let album = new Album("q54gueter","Dasd", 1990)

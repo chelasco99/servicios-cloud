@@ -161,26 +161,30 @@ class UNQfy {
   }
 
   searchByName(name){
-    let tracks =this.searchTracksByName(name)
-    let albums =(this.searchAlbumsByName(name))
-    let artistas = (this.searchArtistsByName(name))
+    let tracks = this.searchTracksByName(name)
+    let albums =this.searchAlbumsByName(name)
+    let artists = this.searchArtistsByName(name)
     let playlists = this.searchPlaylistByName(name)
 
-    return {tracks,albums,artistas,playlists}
+    return {artists,albums,tracks,playlists}
   }
 
-  searchTracksByName(name){
+searchTracksByName(name){
     let tracks = []
     this.artists.forEach(function(elem){
-       tracks.concat(elem.getTracks())
+      let ts= elem.getTracks()
+      tracks = tracks.concat(ts)
     })
     return tracks.filter(track => track.name.includes(name))
   }
 
+
+  
   searchAlbumsByName(name){
     let albums = []
     this.artists.forEach(function(elem){
-      albums.concat(elem.albums)
+      let as = elem.albums
+      albums = albums.concat(as)
     })
     return albums.filter(album => album.name.includes(name))
   }
@@ -206,13 +210,15 @@ class UNQfy {
   */
     let allTracks = []
     for(let i =0; i<this.artists.length;i++){
-       allTracks.concat(this.artists[i].getTracks())
+      let allts= this.artists[i].getTracks()
+      allTracks = allTracks.concat(allts)
     }
-    let tracksToPlay = allTracks.filter(track => track.duration>maxDuration && track.hasAtLeatsOne(genresToInclude))
+    let tracksToPlay = allTracks.filter(track => track.duration<maxDuration && track.hasAtLeatsOne(genresToInclude))
     let playlist = new Playlist(name)
     tracksToPlay.forEach(function(elem){
-      playlist.addTrack(elem)
-    })
+       playlist.addTrack(elem)
+      
+    });
     return playlist
   }
 

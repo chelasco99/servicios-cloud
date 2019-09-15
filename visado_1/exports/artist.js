@@ -28,8 +28,10 @@ class Artista{
     getTracks(){
         let artistTracks = []
         this.albums.forEach(function(elem){
-            artistTracks.concat(elem.tracks)
-        },artistTracks)
+            let tracks = elem.getTracks()
+            artistTracks = artistTracks.concat(tracks)
+        });
+        return artistTracks
     }
 
     searchAlbumsByName(name){
