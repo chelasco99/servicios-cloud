@@ -216,9 +216,10 @@ searchTracksByName(name){
     let tracksToPlay = allTracks.filter(track => track.duration<maxDuration && track.hasAtLeatsOne(genresToInclude))
     let playlist = new Playlist(name)
     tracksToPlay.forEach(function(elem){
-       playlist.addTrack(elem)
-      
+      playlist.addTrack(elem)
+  
     });
+    this.playLists = this.playLists.concat(playlist)
     return playlist
   }
 
