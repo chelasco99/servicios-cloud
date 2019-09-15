@@ -93,6 +93,49 @@ function addTrack(albumID,trackName,trackDuration,trackGenre){
   saveUNQfy(unqfy)
 }
 
+function allArtist(){
+  const unqfy = getUNQfy()
+  console.log(unqfy.artists)
+}
+
+function allAlbums(){
+  const unqfy = getUNQfy()
+  console.log(unqfy.getAllAlbums())
+}
+
+function allTracks(){
+  const unqfy = getUNQfy()
+  console.log(unqfy.getAllTracks())
+}
+
+function tracksByArtistName(artistName){
+  const unqfy = getUNQfy()
+  try{
+    console.log(unqfy.getTracksMatchingArtist({name : artistName}))
+  }catch(e) {
+    if(e.name === 'ArtistExistError'){
+      handleError(e)
+    }else{
+      throw e
+    }
+  }
+}
+
+function tracksByGenreName(genreName){
+  const unqfy = getUNQfy()
+  console.log(unqfy.getTracksMatchingGenres([genreName]))
+}
+
+function removeTrack(artistName,trackName){
+  const unqfy = getUNQfy()
+  try{
+    unqfy.removeTrack({name:artistName},trackName)
+  }catch(e){
+    throw e
+  }
+  saveUNQfy(unqfy)
+}
+
 function main() {
   console.log('arguments: ');
   process.argv.forEach(argument => console.log(argument));
@@ -109,10 +152,26 @@ function main() {
   if(nombreComando == 'addTrack'){
     return addTrack(params[1],params[2],params[3],params[4])
   }
-  
+  if(nombreComando == 'allArtist'){
+    return allArtist()
+  }
+  if(nombreComando == 'allAlbums'){
+    return allAlbums()
+  }
+  if(nombreComando == 'allTracks'){
+    return allTracks()
+  }
+  if(nombreComando == 'tracksByArtistName'){
+    return tracksByArtistName(params[1])
+  }
+  if(nombreComando == 'tracksByGenreName'){
+    return tracksByGenreName(params[1])
+  }
+  if(nombreComando == 'removeTrack'){
+    return removeTrack(params[1],params[2])
+  }
 }
 
 main();
 const unqfy = getUNQfy()
-console.log(unqfy.getAlbumById('fsn27g5jj'))
-//console.log(unqfy.getAlbumsDeArtistas())
+// Los albumes con id 'axvm5gq7q' y '_296dxids0' tienen params Undefined(name,year)
