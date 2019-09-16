@@ -131,7 +131,11 @@ function removeTrack(artistName,trackName){
   try{
     unqfy.removeTrack({name:artistName},trackName)
   }catch(e){
-    throw e
+    if(e.name === "TrackDontExistError"){
+      handleError(e)
+    }else{
+      throw e
+    }
   }
   saveUNQfy(unqfy)
 }
@@ -141,7 +145,25 @@ function removeAlbum(artistName,trackName){
   try{
     unqfy.removeAlbum({name:artistName},trackName)
   }catch(e){
-    throw e
+    if(e.name === "AlbumDontExistError"){
+      handleError(e)
+    }else{
+      throw e
+    }
+  }
+  saveUNQfy(unqfy)
+}
+
+function removeArtist(artistName){
+  const unqfy = getUNQfy()
+  try{
+    unqfy.removeArtist({name:artistName})
+  }catch(e){
+    if(e.name === "ArtistDontExistError"){
+      handleError(e)
+    }else{
+      throw e
+    }
   }
   saveUNQfy(unqfy)
 }
@@ -182,6 +204,9 @@ function main() {
   }
   if(nombreComando == 'removeAlbum'){
     return removeAlbum(params[1],params[2])
+  }
+  if(nombreComando == 'removeArtist'){
+    return removeArtist(params[1])
   }
 }
 
