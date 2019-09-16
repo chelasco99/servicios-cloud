@@ -252,6 +252,16 @@ class UNQfy {
     }
   }
 
+  removeArtist(artistName){
+    let artist = this.getArtistByName(artistName.name)
+      if(artist !== undefined){
+      this.artists = this.artists.filter(artist => artist.name !== artistName)
+      this.playlists.map(playlist => playlist.removeArtist(artist))
+    }else{
+      throw Error("No se pudo eliminar el artista " + artistName +" ya que no existe el artista")
+    }
+  }
+
   existArtist(artistName){
     return this.artists.find(artist => artist.name === artistName) !== undefined
   }
