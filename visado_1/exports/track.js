@@ -1,11 +1,11 @@
 const ID = require('./idGenerator')
 class Track{
-    constructor(albumId,name,duration,genre){
+    constructor(albumId,name,duration,genres){
         this.id = ID()
         this.albumId = albumId
         this.name = name
         this.duration = duration
-        this.genres = genre
+        this.genres = genres
     }
     
     addGenre(genreName){
@@ -20,7 +20,7 @@ class Track{
         return this.genres.includes(genreName)
     }
 
-    hasAtLeatsOne(genresNames){
+    hasAtLeastOne(genresNames){
         return genresNames.some(genre => this.genres.indexOf(genre) >= 0)
     }
     

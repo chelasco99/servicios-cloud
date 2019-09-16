@@ -43,9 +43,9 @@ class Playlist{
      this.tracks = this.tracks.filter(track => track.albumId !== album.albumId)
   }
 
-  removeArtist(artist){
+  removeArtistAlbums(artist){
      artist.albums.forEach(function(elem){
-        this.tracks = this.tracks.filter(track => track.albumId !== elem.id)
+        this.removeAllTracksAlbum(elem)
       });
    }
 
