@@ -253,9 +253,10 @@ class UNQfy {
   }
 
   removeArtist(artistName){
-    let artist = this.getArtistByName(artistName.name)
+    let artist = this.getArtistByName(artistName)
       if(artist !== undefined){
-      this.artists = this.artists.filter(artist => artist.name !== artistName)
+      let artistas = this.artists.filter(artist => artist.name !== artistName)
+      this.artists = artistas
       this.playlists.map(playlist => playlist.removeArtist(artist))
     }else{
       throw Error("No se pudo eliminar el artista " + artistName +" ya que no existe el artista")
