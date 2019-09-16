@@ -13,8 +13,8 @@ const Playlist = require('./exports/playlist.js')
 class UNQfy {
   
     constructor () {
-      this.artists = [] ;
-      this.playlists = [] ;
+      this.artists = [] ; //Todos los artistas del sistema
+      this.playlists = [] ; // Todas las playlist del sistema
     }
 
   // artistData: objeto JS con los datos necesarios para crear un artista
@@ -82,52 +82,76 @@ class UNQfy {
       console.log("Se ha agregado el track con nombre " + trackData.name+ " al album con nombre" + album.name)
       return track
     } else{
-       throw Error("El album ya tiene ese track")
+       throw Error("El album ya tiene el track con nombre " + trackData.name)
     }
   }
 
+  // name: nombre de la playlist
+  // genresToInclude: array de generos
+  // maxDuration: duración en segundos
+  // retorna: la nueva playlist creada
+  createPlaylist(name, genresToInclude, maxDuration) {
+    /*** Crea una playlist y la agrega a unqfy. ***
+      El objeto playlist creado debe soportar (al menos):
+        * una propiedad name (string)
+        * un metodo duration() que retorne la duración de la playlist.
+        * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
+    */
+      let allTracks = this.getAllTracks()
+      let tracksToPlay = allTracks.filter(track => track.hasAtLeastOne(genresToInclude))
+      let playlist = new Playlist(name,genresToInclude,maxDuration)
+      playlist.addTracks(tracksToPlay)
+      this.playlists.push(playlist)
+      return playlist
+    }
+
   getArtistById(id) {
+      // Retorna al artista con id indicando si es que existe
       let artist = this.artists.find(artist => artist.id === id)
       if(artist !== undefined){
         return artist
       }
       else{
-        throw Error("No se encontro un artista con el id" + id)
+        throw Error("No se encontro un artista con el id " + id)
       }
   }
 
   getAlbumById(id) {
+    // Retorna al album con el id indicado, si es que existe
     let albumes = this.getAllAlbums()
     let album = albumes.find(album => album.id === id)
     if(album !== undefined){
       return album
     }else{
-      throw Error("No existe un album con ese id")
+      throw Error("No existe un album con ese id ")
     }
 
   }
 
   getTrackById(id) {
+    // retorna al track con el id indicado si es que existe
     let allTracks = this.getAllTracks()
     let track = allTracks.find(track => track.id === id)
     if (track !== undefined) {
       return track
     }else{
-      throw Error("No existe el track con ese id" + id)
+      throw Error("No existe el track con ese id " + id)
     }
   }
 
   getPlaylistById(id) {
+    // retorna la playlist con el id indicado, si es que existe
     let playList = this.playlists.find(playlist => playlist.playlistId === id)
     if ( playList !== undefined) {
       return playList
     }else {
-      throw Error("No existe la playList con ese id" + id)
+      throw Error("No existe la playList con ese id " + id)
     }
 
   }
 
   getArtistByName(artistName){
+    // Retorna al artista con el nombre indicado, si es que existe
     let artist = this.artists.find(artist => artist.name === artistName)
     if(artist !== undefined){
       return artist
@@ -139,12 +163,13 @@ class UNQfy {
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres) {
+    // retorna todos los tracks que tengan por lo menos uno de los generos indicados
     let allTracks = this.getAllTracks()
-    let tracks = allTracks.filter(track => track.hasAtLeatsOne(genres))
+    let tracks = allTracks.filter(track => track.hasAtLeastOne(genres))
     return tracks 
   }
 
-  // artistName: nombre de artista(string)
+  // artistName: nombre de artista(objeto)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
     let artist = this.artists.find(artist => artist.name === artistName.name)
@@ -159,6 +184,7 @@ class UNQfy {
   }
 
   getAllAlbums(){
+    // retorna todos los albums del sistema
     if(this.artists.length === 0){
       return [] // Si no hay artistas simplemente muestra una lista vacia
     }
@@ -168,6 +194,7 @@ class UNQfy {
   }
 
   getAllTracks(){
+    // retorna todos los tracks del sistema
     let allTracks = this.getAllAlbums().map(album => album.tracks).reduce(function (a,b) {
       return a.concat(b)
     })
@@ -175,6 +202,9 @@ class UNQfy {
   }
 
   searchByName(name){
+    /* retorna todos los tracks, albums, artistas 
+       y playlists que tengan incluido el nombre indicado
+    */
     let tracks = this.searchTracksByName(name)
     let albums =this.searchAlbumsByName(name)
     let artists = this.searchArtistsByName(name)
@@ -184,43 +214,31 @@ class UNQfy {
   }
 
   searchTracksByName(name){
+    // retorna todos los tracks que tengan incluido el nombre indicado
     let tracks = this.getAllTracks()
     return tracks.filter(track => track.name.includes(name))
   }
 
   searchAlbumsByName(name){
+    // retorna todos los albums que tengan incluido el nombre indicado
     let albums = this.getAllAlbums()
     return albums.filter(album => album.name.includes(name))
   }
   
   searchPlaylistByName(name){
+    // retorna todas los playlists que tengan incluido el nombre indicado
     return this.playlists.filter(playlist => playlist.name.includes(name))
   }
 
   searchArtistsByName(name){
+    // retorna todos los artistas que tengan incluido el nombre indicado
     return this.artists.filter(artist => artist.name.includes(name))
   }
 
-  // name: nombre de la playlist
-  // genresToInclude: array de generos
-  // maxDuration: duración en segundos
-  // retorna: la nueva playlist creada
-  createPlaylist(name, genresToInclude, maxDuration) {
-  /*** Crea una playlist y la agrega a unqfy. ***
-    El objeto playlist creado debe soportar (al menos):
-      * una propiedad name (string)
-      * un metodo duration() que retorne la duración de la playlist.
-      * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
-  */
-    let allTracks = this.getAllTracks()
-    let tracksToPlay = allTracks.filter(track => track.hasAtLeatsOne(genresToInclude))
-    let playlist = new Playlist(name,genresToInclude,maxDuration)
-    playlist.addTracks(tracksToPlay)
-    this.playlists.push(playlist)
-    return playlist
-  }
-
   removeTrack(artistName,trackName){
+    /* remueve el track con el nombre indicado del artista indicado del sistema
+       dejandolo consistente
+    */
     let artist = this.getArtistByName(artistName.name)
     if(artist !== undefined){
       let album = artist.albums.find(album => album.hasTrack(trackName))
@@ -237,6 +255,9 @@ class UNQfy {
   }
 
   removeAlbum(artistName,albumName) {
+   /* remueve el album con el nombre indicado del artista indicado del sistema
+       dejandolo consistente
+    */
     let artista = this.getArtistByName(artistName.name)
     if ( artista !== undefined) {
       let album = artista.albums.find(album => album.name === albumName)
@@ -253,22 +274,21 @@ class UNQfy {
   }
 
   removeArtist(artistName){
-    let artist = this.getArtistByName(artistName)
-      if(artist !== undefined){
-      let artistas = this.artists.filter(artist => artist.name !== artistName)
-      this.artists = artistas
-      this.playlists.map(playlist => playlist.removeArtist(artist))
+    /* remueve el artista con el nombre indicado del sistema
+       dejandolo consistente
+    */
+    let artist = this.getArtistByName(artistName.name)
+    if(artist !== undefined){
+      this.artists = this.artists.filter(art => art.name !== artistName.name)
+      this.playlists.map(playlist => playlist.removeArtistAlbums(artist))
+      console.log("Se ha eliminado el artista " + artistName.name + " correctamente")
     }else{
-      throw Error("No se pudo eliminar el artista " + artistName +" ya que no existe el artista")
+      throw Error("No se pudo eliminar el artista " + artistName.name +" ya que no existe")
     }
   }
 
-  existArtist(artistName){
+  existArtist(artistName){ // retorna si existe el artista con el nombre indicado
     return this.artists.find(artist => artist.name === artistName) !== undefined
-  }
-
-  existAlbum(albumName){
-    return this.artists.albums.find(album => album.name === albumName) !== undefined
   }
 
   save(filename) {
