@@ -62,7 +62,7 @@ describe('Add, remove and filter data', () => {
     assert.equal(album.year, 1987);
   });
   it('should failing when the artist name dont exist',()=>{
-    expect(()=> createAndAlbum(unqfy, 'DontExistArtistName', 'AlbumName',1900)
+    expect(()=> createAndAddAlbum(unqfy, 'ArtistDontExistError', 'AlbumName',1900)
     .to.throw("El artista no existe en el sistema"))
   })
  })
@@ -77,6 +77,14 @@ describe('Add, remove and filter data', () => {
     assert.equal(track.genres.includes('hard rock'), true);
     assert.lengthOf(track.genres, 2);
   });
+  it('should failing when the artist name dont exist',()=>{
+    expect(()=> createAndAddAlbum(unqfy, 'ArtistDontExistError', 'AlbumName',1900)
+    .to.throw("El artista no existe en el sistema"))
+  })
+  it('should failing when the album name dont exist',()=>{
+    expect(()=> createAndAddTrack(unqfy, 'ArtistDontExistError', 'AlbumDontExistError',1900)
+    .to.throw("El album no existe en el sistema"))
+  })
 
   it('should find different things by name', () => {
     const artist1 = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');

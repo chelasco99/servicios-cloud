@@ -245,4 +245,3 @@ function main() {
 
 main();
 const unqfy = getUNQfy()
-// Los albumes con id 'axvm5gq7q' y '_296dxids0' tienen params Undefined(name,year)
