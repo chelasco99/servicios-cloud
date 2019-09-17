@@ -8,6 +8,9 @@ const ID = require('./exports/idGenerator')
 const ArtistExistError = require('./exports/errors/artistError')
 const AlbumExistError = require('./exports/errors/albumExistError')
 const Playlist = require('./exports/playlist.js')
+const AlbumDontExistError = require('./exports/errors/albumDontExistError')
+const ArtistDontExistError = require('./exports/errors/artistDontExistError')
+const TrackExistError = require('./exports/errors/trackExistError')
 
 
 class UNQfy {
@@ -45,17 +48,17 @@ class UNQfy {
   //   albumData.name (string)
   //   albumData.year (number)
   // retorna: el nuevo album creado
-  addAlbum(artistId, albumData) {
+  addAlbum(artistName, albumData) {
   /* Crea un album y lo agrega al artista con id artistId.
     El objeto album creado debe tener (al menos):
      - una propiedad name (string)
      - una propiedad year (number)
   */
-    let artist = this.getArtistById(artistId)
+    let artist = this.getArtistByName(artistName)
     if(!artist.hasAlbumName(albumData.name)){
-      let album = new Album(artistId,albumData.name, albumData.year)
+      let album = new Album(artist.id,albumData.name, albumData.year)
       artist.albums.push(album)
-      console.log('Se ha agregado el album con nombre ' + album.name)
+      console.log('Se ha agregado el album con nombre ' + album.name + ' al artista ' + artistName)
       return album
     }else{
       throw new AlbumExistError()
@@ -68,22 +71,29 @@ class UNQfy {
   //   trackData.duration (number)
   //   trackData.genres (lista de strings)
   // retorna: el nuevo track creado
-  addTrack(albumId, trackData) {
+  addTrack(artistName,albumName, trackData) {
   /* Crea un track y lo agrega al album con id albumId.
   El objeto track creado debe tener (al menos):
       - una propiedad name (string),
       - una propiedad duration (number),
       - una propiedad genres (lista de strings)
   */
-    let album = this.getAlbumById(albumId)
-    if(!album.hasTrack(trackData.name)){
-      let track = new Track(albumId,trackData.name,trackData.duration,trackData.genres)
-      album.addTrack(track)
-      console.log("Se ha agregado el track con nombre " + trackData.name+ " al album con nombre" + album.name)
-      return track
-    } else{
-       throw Error("El album ya tiene el track con nombre " + trackData.name)
+    if(!this.existArtist(artistName)){
+      throw new ArtistDontExistError()
     }
+    let album = this.getAlbumByNameAndArtistID(albumName,this.getArtistByName(artistName).id)
+    if(album !== undefined){
+     if(!album.hasTrack(trackData.name)){
+      let track = new Track(album.id,trackData.name,trackData.duration,trackData.genres)
+      album.addTrack(track)
+      console.log("Se ha agregado el track con nombre " + trackData.name+ " al album con nombre " + album.name + " del artista " + artistName)
+      return track
+     } else{
+       throw new TrackExistError()
+       }
+    } else{
+       throw new AlbumDontExistError()
+      } 
   }
 
   // name: nombre de la playlist
@@ -102,6 +112,7 @@ class UNQfy {
       let playlist = new Playlist(name,genresToInclude,maxDuration)
       playlist.addTracks(tracksToPlay)
       this.playlists.push(playlist)
+      console.log("Se creo la playlist " + playlist.name + " correctamente")
       return playlist
     }
 
@@ -160,6 +171,35 @@ class UNQfy {
     }
   }
 
+  getTracksByAlbumAndArtistName(artistName,albumName){
+    let artist = this.getArtistByName(artistName)
+    if (artist !== undefined) {
+      let album = this.getAlbumByNameAndArtistID(albumName,artist.id)
+      if (album !== undefined) {
+          let tracks = album.getTracks()
+          return tracks
+      } else {
+          throw new AlbumDontExistError()
+        }
+    } else {
+      throw new ArtistDontExistError()
+    }
+  }
+
+  getAlbumByNameAndArtistID(name, artistID) {
+    return this.getAllAlbums().find(album => (album.name === name) && album.artistID === artistID)
+}
+
+  getAlbumsByArtistName(artistName){
+    let artist = this.getArtistByName(artistName)
+        if (artist !== undefined) {
+            let albums = artist.albums
+            return albums
+        } else {
+            throw new ArtistDontExistError()
+        }
+  }
+
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres) {
@@ -197,19 +237,22 @@ class UNQfy {
     // retorna todos los tracks del sistema
     let allTracks = this.getAllAlbums().map(album => album.tracks).reduce(function (a,b) {
       return a.concat(b)
-    })
+    },[])
     return allTracks
   }
 
   searchByName(name){
     /* retorna todos los tracks, albums, artistas 
-       y playlists que tengan incluido el nombre indicado
+       y playlists que tengan incluido el nombre indicado e imprime sus nombres en pantalla
     */
     let tracks = this.searchTracksByName(name)
     let albums =this.searchAlbumsByName(name)
     let artists = this.searchArtistsByName(name)
     let playlists = this.searchPlaylistByName(name)
-
+    console.log('Artistas:' + this.names(artists),
+            'Albums:' + this.names(albums),
+            'Tracks:' + this.names(tracks),
+            'Playlists:' + this.names(playlists));
     return {artists,albums,tracks,playlists}
   }
 
@@ -289,6 +332,10 @@ class UNQfy {
 
   existArtist(artistName){ // retorna si existe el artista con el nombre indicado
     return this.artists.find(artist => artist.name === artistName) !== undefined
+  }
+
+  names(items){
+    return items.map(item => item.name)
   }
 
   save(filename) {
