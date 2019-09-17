@@ -14,92 +14,422 @@
       "artistas": "__00006__"
     },
     "__00002__": {
-      "0": "__00007__"
+      "0": "__00007__",
+      "1": "__00008__",
+      "2": "__00009__",
+      "3": "__00010__"
     },
-    "__00003__": {},
+    "__00003__": {
+      "0": "__00011__",
+      "1": "__00012__",
+      "2": "__00013__"
+    },
     "__00004__": {},
     "__00005__": {},
     "__00006__": {
-      "0": "__00008__",
-      "1": "__00009__",
-      "2": "__00010__",
-      "3": "__00011__",
-      "4": "__00012__",
-      "5": "__00013__",
+      "0": "__00014__",
+      "1": "__00015__",
+      "2": "__00016__",
+      "3": "__00017__",
+      "4": "__00018__",
+      "5": "__00019__",
       "6": "__00007__",
-      "7": "__00014__"
+      "7": "__00020__"
     },
     "__00007__": {
       "id": "q54gueter",
       "name": "Pith",
       "country": "Argentina",
-      "albums": "__00015__"
+      "albums": "__00021__"
     },
     "__00008__": {
+      "id": "j1208cdhd",
+      "name": "Ciro",
+      "country": "Argentina",
+      "albums": "__00022__"
+    },
+    "__00009__": {
+      "id": "nkddkvt9o",
+      "name": "Roberto",
+      "country": "Uruguay",
+      "albums": "__00023__"
+    },
+    "__00010__": {
+      "id": "fazak51or",
+      "name": "Pato",
+      "country": "Argentina",
+      "albums": "__00024__"
+    },
+    "__00011__": {
+      "name": "Pedro",
+      "playlistId": "ezmwnpv8k",
+      "genres": "__00025__",
+      "tracks": "__00026__",
+      "maxDuration": "4000",
+      "currentDuration": "05445455"
+    },
+    "__00012__": {
+      "name": "Pedro",
+      "playlistId": "fvuaxlvv4",
+      "genres": "__00027__",
+      "tracks": "__00028__",
+      "maxDuration": "[rock]",
+      "currentDuration": "05445455"
+    },
+    "__00013__": {
+      "name": "Pop",
+      "playlistId": "rza3qq8ve",
+      "genres": "__00029__",
+      "tracks": "__00030__",
+      "maxDuration": "400",
+      "currentDuration": "03"
+    },
+    "__00014__": {
       "id": 1,
       "name": "asd",
       "country": "e",
-      "albums": "__00016__",
+      "albums": "__00031__",
       "artistID": "_0xwm4ti2w"
     },
-    "__00009__": {
+    "__00015__": {
       "id": "_xq42cwdrn",
       "name": "ede",
       "country": "eed",
-      "albums": "__00017__",
+      "albums": "__00032__",
       "artistID": "_u5hla8pbo"
     },
-    "__00010__": {
+    "__00016__": {
       "id": 1,
       "name": "gERR",
       "country": "eed",
-      "albums": "__00018__",
+      "albums": "__00033__",
       "artistID": "_agmrfm0ib"
     },
-    "__00011__": {
+    "__00017__": {
       "id": "_wqp1z94hn",
       "name": "eee",
       "country": "eed",
-      "albums": "__00019__",
+      "albums": "__00034__",
       "artistID": "_hox19mgia"
     },
-    "__00012__": {
+    "__00018__": {
       "id": "_iwfen2rcp",
       "name": "Pe",
       "country": "eed",
-      "albums": "__00020__",
+      "albums": "__00035__",
       "artistID": "_y5tggy3dn"
     },
-    "__00013__": {
+    "__00019__": {
       "id": "_ftr8nuavc",
       "name": "Pedro",
       "country": "Rodriguez",
-      "albums": "__00021__"
+      "albums": "__00036__"
     },
-    "__00014__": {
+    "__00020__": {
       "id": "c446lsz84",
       "name": "name",
       "country": "Peter Tosh",
-      "albums": "__00022__"
+      "albums": "__00037__"
     },
-    "__00015__": {},
-    "__00016__": {},
-    "__00017__": {},
-    "__00018__": {},
-    "__00019__": {},
-    "__00020__": {},
-    "__00021__": {
-      "0": "__00023__"
+    "__00021__": {},
+    "__00022__": {
+      "0": "__00038__",
+      "1": "__00039__",
+      "2": "__00040__"
     },
-    "__00022__": {},
     "__00023__": {
+      "0": "__00041__",
+      "1": "__00042__",
+      "2": "__00043__"
+    },
+    "__00024__": {
+      "0": "__00044__",
+      "1": "__00045__",
+      "2": "__00046__"
+    },
+    "__00025__": {
+      "0": "[rock]",
+      "1": "4000"
+    },
+    "__00026__": {
+      "0": "__00047__",
+      "1": "__00048__",
+      "2": "__00049__",
+      "3": "__00050__",
+      "4": "__00051__",
+      "5": "__00052__",
+      "6": "__00053__"
+    },
+    "__00027__": {
+      "0": "[rock]",
+      "1": "4000"
+    },
+    "__00028__": {
+      "0": "__00047__",
+      "1": "__00048__",
+      "2": "__00049__",
+      "3": "__00050__",
+      "4": "__00051__",
+      "5": "__00052__",
+      "6": "__00053__"
+    },
+    "__00029__": {
+      "0": "400",
+      "1": "[pop]"
+    },
+    "__00030__": {
+      "0": "__00054__"
+    },
+    "__00031__": {},
+    "__00032__": {},
+    "__00033__": {},
+    "__00034__": {},
+    "__00035__": {},
+    "__00036__": {
+      "0": "__00055__"
+    },
+    "__00037__": {},
+    "__00038__": {
+      "id": "9hm1bdsfq",
+      "artistID": "j1208cdhd",
+      "name": "Naranja persa",
+      "year": "2016",
+      "tracks": "__00056__"
+    },
+    "__00039__": {
+      "id": "dasncvkfu",
+      "artistID": "j1208cdhd",
+      "name": "Azul",
+      "year": "1998",
+      "tracks": "__00057__"
+    },
+    "__00040__": {
+      "id": "milniba72",
+      "artistID": "j1208cdhd",
+      "name": "Ritual",
+      "year": "1999",
+      "tracks": "__00058__"
+    },
+    "__00041__": {
+      "id": "w04bbzmd6",
+      "artistID": "nkddkvt9o",
+      "name": "Raro",
+      "year": "2006",
+      "tracks": "__00059__"
+    },
+    "__00042__": {
+      "id": "vw4wr09k6",
+      "artistID": "nkddkvt9o",
+      "name": "Jueves",
+      "year": "2019",
+      "tracks": "__00060__"
+    },
+    "__00043__": {
+      "id": "ex5f2ye8n",
+      "artistID": "nkddkvt9o",
+      "name": "Porfiado",
+      "year": "2012",
+      "tracks": "__00061__"
+    },
+    "__00044__": {
+      "id": "k8yj96loi",
+      "artistID": "fazak51or",
+      "name": "Señales",
+      "year": "2006",
+      "tracks": "__00062__"
+    },
+    "__00045__": {
+      "id": "ta3yz0h90",
+      "artistID": "fazak51or",
+      "name": "Sed",
+      "year": "2001",
+      "tracks": "__00063__"
+    },
+    "__00046__": {
+      "id": "8owqyx883",
+      "artistID": "fazak51or",
+      "name": "Presion",
+      "year": "2003",
+      "tracks": "__00064__"
+    },
+    "__00047__": {
+      "id": "kfccz2epr",
+      "albumId": "dasncvkfu",
+      "name": "Agua",
+      "duration": "5",
+      "genres": "[rock]"
+    },
+    "__00048__": {
+      "id": "19ra588gp",
+      "albumId": "milniba72",
+      "name": "Cruel",
+      "duration": "4",
+      "genres": "[rock]"
+    },
+    "__00049__": {
+      "id": "tp4ca3qhq",
+      "albumId": "k8yj96loi",
+      "name": "Daños",
+      "duration": "4",
+      "genres": "[rock]"
+    },
+    "__00050__": {
+      "id": "s3orijn2r",
+      "albumId": "ta3yz0h90",
+      "name": "Jugando",
+      "duration": "5",
+      "genres": "[rock]"
+    },
+    "__00051__": {
+      "id": "7enw4dkrk",
+      "albumId": "ta3yz0h90",
+      "name": "El nudo",
+      "duration": "4",
+      "genres": "[rock]"
+    },
+    "__00052__": {
+      "id": "pimoxjo9x",
+      "albumId": "8owqyx883",
+      "name": "Cristal",
+      "duration": "5",
+      "genres": "[rock]"
+    },
+    "__00053__": {
+      "id": "qfdur5esc",
+      "albumId": "8owqyx883",
+      "name": "Imposible",
+      "duration": "5",
+      "genres": "[rock]"
+    },
+    "__00054__": {
+      "id": "m7z2f5dzd",
+      "albumId": "dasncvkfu",
+      "name": "Quemado",
+      "duration": "3",
+      "genres": "[pop]"
+    },
+    "__00055__": {
       "id": "fsn27g5jj",
       "artistID": "_ftr8nuavc",
       "name": "Probando2",
       "year": "1990",
-      "tracks": "__00024__"
+      "tracks": "__00065__"
     },
-    "__00024__": {}
+    "__00056__": {
+      "0": "__00066__",
+      "1": "__00067__"
+    },
+    "__00057__": {
+      "0": "__00054__",
+      "1": "__00047__"
+    },
+    "__00058__": {
+      "0": "__00048__",
+      "1": "__00068__"
+    },
+    "__00059__": {
+      "0": "__00069__",
+      "1": "__00070__"
+    },
+    "__00060__": {
+      "0": "__00071__",
+      "1": "__00072__"
+    },
+    "__00061__": {
+      "0": "__00073__",
+      "1": "__00074__"
+    },
+    "__00062__": {
+      "0": "__00049__"
+    },
+    "__00063__": {
+      "0": "__00050__",
+      "1": "__00051__"
+    },
+    "__00064__": {
+      "0": "__00075__",
+      "1": "__00052__",
+      "2": "__00053__",
+      "3": "__00076__"
+    },
+    "__00065__": {},
+    "__00066__": {
+      "id": "pqvt3coyz",
+      "albumId": "9hm1bdsfq",
+      "name": "Luz",
+      "duration": "5",
+      "genres": "[jazz,funk,pop]"
+    },
+    "__00067__": {
+      "id": "l2hzdvugp",
+      "albumId": "9hm1bdsfq",
+      "name": "Juira",
+      "duration": "4",
+      "genres": "[pop,reagge]"
+    },
+    "__00068__": {
+      "id": "smo6wgjea",
+      "albumId": "milniba72",
+      "name": "Arco",
+      "duration": "3",
+      "genres": "[rock and roll]"
+    },
+    "__00069__": {
+      "id": "23ncnpuv7",
+      "albumId": "w04bbzmd6",
+      "name": "Natural",
+      "duration": "4",
+      "genres": "[rock Alternativo,indie]"
+    },
+    "__00070__": {
+      "id": "z7egxsdmg",
+      "albumId": "w04bbzmd6",
+      "name": "Asi soy yo",
+      "duration": "5",
+      "genres": "[rock,rap]"
+    },
+    "__00071__": {
+      "id": "5zcqjh5ro",
+      "albumId": "vw4wr09k6",
+      "name": "Contrapunto para humano y computadora",
+      "duration": "6",
+      "genres": "[rap,payada]"
+    },
+    "__00072__": {
+      "id": "qfywwq28h",
+      "albumId": "vw4wr09k6",
+      "name": "Anonimo",
+      "duration": "5",
+      "genres": "[rap,rock]"
+    },
+    "__00073__": {
+      "id": "t2ve4c7rq",
+      "albumId": "ex5f2ye8n",
+      "name": "Insaciable",
+      "duration": "5",
+      "genres": "[rock,pop]"
+    },
+    "__00074__": {
+      "id": "v98dl8uus",
+      "albumId": "ex5f2ye8n",
+      "name": "Vida Ingrata",
+      "duration": "5",
+      "genres": "[rock,pop]"
+    },
+    "__00075__": {
+      "id": "miczi926f",
+      "albumId": "8owqyx883",
+      "name": "Tres",
+      "duration": "5",
+      "genres": "[rock,tango]"
+    },
+    "__00076__": {
+      "id": "zvqdq20iv",
+      "albumId": "8owqyx883",
+      "name": "Fantasia y realidad",
+      "duration": "4",
+      "genres": "[tango]"
+    }
   },
   "types": {
     "__00001__": "UNQfy",
@@ -112,19 +442,71 @@
     "__00008__": "Artista",
     "__00009__": "Artista",
     "__00010__": "Artista",
-    "__00011__": "Artista",
-    "__00012__": "Artista",
-    "__00013__": "Artista",
+    "__00011__": "Playlist",
+    "__00012__": "Playlist",
+    "__00013__": "Playlist",
     "__00014__": "Artista",
-    "__00015__": "Array",
-    "__00016__": "Array",
-    "__00017__": "Array",
-    "__00018__": "Array",
-    "__00019__": "Array",
-    "__00020__": "Array",
+    "__00015__": "Artista",
+    "__00016__": "Artista",
+    "__00017__": "Artista",
+    "__00018__": "Artista",
+    "__00019__": "Artista",
+    "__00020__": "Artista",
     "__00021__": "Array",
     "__00022__": "Array",
-    "__00023__": "Album",
-    "__00024__": "Array"
+    "__00023__": "Array",
+    "__00024__": "Array",
+    "__00025__": "Array",
+    "__00026__": "Array",
+    "__00027__": "Array",
+    "__00028__": "Array",
+    "__00029__": "Array",
+    "__00030__": "Array",
+    "__00031__": "Array",
+    "__00032__": "Array",
+    "__00033__": "Array",
+    "__00034__": "Array",
+    "__00035__": "Array",
+    "__00036__": "Array",
+    "__00037__": "Array",
+    "__00038__": "Album",
+    "__00039__": "Album",
+    "__00040__": "Album",
+    "__00041__": "Album",
+    "__00042__": "Album",
+    "__00043__": "Album",
+    "__00044__": "Album",
+    "__00045__": "Album",
+    "__00046__": "Album",
+    "__00047__": "Track",
+    "__00048__": "Track",
+    "__00049__": "Track",
+    "__00050__": "Track",
+    "__00051__": "Track",
+    "__00052__": "Track",
+    "__00053__": "Track",
+    "__00054__": "Track",
+    "__00055__": "Album",
+    "__00056__": "Array",
+    "__00057__": "Array",
+    "__00058__": "Array",
+    "__00059__": "Array",
+    "__00060__": "Array",
+    "__00061__": "Array",
+    "__00062__": "Array",
+    "__00063__": "Array",
+    "__00064__": "Array",
+    "__00065__": "Array",
+    "__00066__": "Track",
+    "__00067__": "Track",
+    "__00068__": "Track",
+    "__00069__": "Track",
+    "__00070__": "Track",
+    "__00071__": "Track",
+    "__00072__": "Track",
+    "__00073__": "Track",
+    "__00074__": "Track",
+    "__00075__": "Track",
+    "__00076__": "Track"
   }
 }
