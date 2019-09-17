@@ -5,4 +5,4 @@ class ArtistDontExistError extends Error{
     }
 }
 
-modele.exports = ArtistDontExistError
+module.exports = ArtistDontExistError
