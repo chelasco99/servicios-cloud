@@ -3,7 +3,7 @@ class Playlist{
   constructor(name,genresToInclude,maxDuration){
       this.name = name
       this.playlistId = ID()
-      this.genresToInclude = genresToInclude
+      this.genres = genresToInclude
       this.tracks = []
       this.maxDuration = maxDuration
       this.currentDuration = 0
