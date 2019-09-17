@@ -2,6 +2,7 @@
 
 const assert = require('chai').assert;
 const libunqfy = require('./unqfy');
+var expect = require('chai').expect;
 
 
 function createAndAddArtist(unqfy, artistName, country) {
@@ -23,16 +24,36 @@ describe('Add, remove and filter data', () => {
 
   beforeEach(() => {
     unqfy = new libunqfy.UNQfy();
-  });
 
-  it('should add an artist', () => {
+    ciro = createAndAddArtist(unqfy,"Ciro","Argentina")
+    azul = createAndAddAlbum(unqfy,ciro.name,"Azul",1998)
+    quemado = createAndAddTrack(unqfy,ciro.name,azul.name,"Quemado",5,["rock","pop"])
+
+    pato = createAndAddArtist(unqfy,"Pato","Argentina")
+    sed = createAndAddAlbum(unqfy,pato.name,"Sed",2001)
+    elNudo = createAndAddTrack(unqfy,pato.name,sed.name,"El nudo",400,["rock"])
+
+    roberto = createAndAddArtist(unqfy,"Roberto","Uruguay")
+    jueves = createAndAddAlbum(unqfy,roberto.name,"Jueves",2019)
+    contraPuntoHumanoYComputadora = createAndAddTrack(unqfy,roberto.name,jueves.name,"Contrapunto Humano y Computadora",500,["rock","rap","payada"])
+
+    rockPlaylist = unqfy.createPlaylist("Rock playlist",["rock"],1200)
+
+  });
+ context('triying to add an artist',() =>{
+   it('should always add an artist', () => {
     const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
 
     assert.equal(artist.name, 'Guns n\' Roses');
     assert.equal(artist.country, 'USA');
 
-  });
-
+   });
+   it('should failing when the artist name already exist',()=> {
+    expect(()=> createAndAddArtist(unqfy, 'Ciro', 'Argentina')
+    .to.throw("El artista ya se encuentra en el sistema"))
+   })
+ })
+ context('triying to add an album',() => {
   it('should add an album to an artist', () => {
     const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
     const album = createAndAddAlbum(unqfy, artist.name, 'Appetite for Destruction', 1987);
@@ -40,7 +61,11 @@ describe('Add, remove and filter data', () => {
     assert.equal(album.name, 'Appetite for Destruction');
     assert.equal(album.year, 1987);
   });
-
+  it('should failing when the artist name dont exist',()=>{
+    expect(()=> createAndAlbum(unqfy, 'DontExistArtistName', 'AlbumName',1900)
+    .to.throw("El artista no existe en el sistema"))
+  })
+ })
   it('should add a track to an album', () => {
     const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
     const album = createAndAddAlbum(unqfy, artist.name, 'Appetite for Destruction', 1987);
@@ -84,7 +109,7 @@ describe('Add, remove and filter data', () => {
 
     // assert.equal(tracks.matching.constructor.name, Array);
     assert.isArray(tracksMatching);
-    assert.lengthOf(tracksMatching, 4);
+    assert.lengthOf(tracksMatching, 5);
     assert.equal(tracksMatching.includes(t0), true);
     assert.equal(tracksMatching.includes(t1), true);
     assert.equal(tracksMatching.includes(t2), true);
