@@ -63,10 +63,10 @@ function addArtist(name, country) {
   saveUNQfy(unqfy)
 }
 
-function addAlbum(artistID,albumName,albumYear){
+function addAlbum(artistName,albumName,albumYear){
   const unqfy = getUNQfy()
   try{
-    unqfy.addAlbum(artistID,{name:albumName,year:albumYear})
+    unqfy.addAlbum(artistName,{name:albumName,year:albumYear})
   }
   catch(e){
    if(e.name === "AlbumExistError"){
@@ -78,10 +78,10 @@ function addAlbum(artistID,albumName,albumYear){
   saveUNQfy(unqfy)
 }
 
-function addTrack(albumID,trackName,trackDuration,trackGenre){
+function addTrack(artistName,albumName,trackName,trackDuration,trackGenre){
   const unqfy = getUNQfy()
   try{
-    unqfy.addTrack(albumID,{name:trackName,duration:trackDuration,genre:trackGenre})
+    unqfy.addTrack(artistName,albumName,{name:trackName,duration:trackDuration,genres:trackGenre})
   }
   catch(e){
     if(e.name === "TrackExistError"){
@@ -90,6 +90,12 @@ function addTrack(albumID,trackName,trackDuration,trackGenre){
       throw e
     }
   }
+  saveUNQfy(unqfy)
+}
+
+function createPlaylist(name,maxDuration,genresToInclude){
+  const unqfy = getUNQfy()
+  unqfy.createPlaylist(name,genresToInclude,maxDuration)
   saveUNQfy(unqfy)
 }
 
@@ -108,6 +114,16 @@ function allTracks(){
   console.log(unqfy.getAllTracks())
 }
 
+function allPlaylist(){
+  const unqfy = getUNQfy()
+  console.log(unqfy.playlists)
+}
+
+function albumsByArtistName(artistName){
+  const unqfy = getUNQfy()
+  console.log(unqfy.getAlbumsByArtistName(artistName))
+}
+
 function tracksByArtistName(artistName){
   const unqfy = getUNQfy()
   try{
@@ -124,6 +140,11 @@ function tracksByArtistName(artistName){
 function tracksByGenreName(genreName){
   const unqfy = getUNQfy()
   console.log(unqfy.getTracksMatchingGenres([genreName]))
+}
+
+function searchByName(name){
+  const unqfy = getUNQfy()
+  console.log(unqfy.searchByName(name))
 }
 
 function removeTrack(artistName,trackName){
@@ -182,7 +203,7 @@ function main() {
     return addAlbum(params[1],params[2],params[3])
   }
   if(nombreComando == 'addTrack'){
-    return addTrack(params[1],params[2],params[3],params[4])
+    return addTrack(params[1],params[2],params[3],params[4],params[5])
   }
   if(nombreComando == 'allArtist'){
     return allArtist()
@@ -207,6 +228,18 @@ function main() {
   }
   if(nombreComando == 'removeArtist'){
     return removeArtist(params[1])
+  }
+  if(nombreComando == 'searchByName'){
+    return searchByName(params[1])
+  }
+  if(nombreComando == 'albumsByArtistName'){
+    return albumsByArtistName(params[1])
+  }
+  if(nombreComando == 'createPlaylist'){
+    return createPlaylist(params[1],params[2],params.slice(2))
+  }
+  if(nombreComando == 'allPlaylist'){
+    return allPlaylist()
   }
 }
 
