@@ -49,8 +49,9 @@ describe('Add, remove and filter data', () => {
 
    });
    it('should failing when the artist name already exist',()=> {
-    expect(()=> createAndAddArtist(unqfy, 'Ciro', 'Argentina')
-    .to.throw("El artista ya se encuentra en el sistema"))
+    expect(function(){
+      createAndAddArtist(unqfy, 'Ciro', 'Argentina')
+    }).to.throw("El artista ya se encuentra en el sistema")
    })
  })
  context('triying to add an album',() => {
@@ -62,8 +63,9 @@ describe('Add, remove and filter data', () => {
     assert.equal(album.year, 1987);
   });
   it('should failing when the artist name dont exist',()=>{
-    expect(()=> createAndAddAlbum(unqfy, 'ArtistDontExistError', 'AlbumName',1900)
-    .to.throw("El artista no existe en el sistema"))
+    expect(function (){
+        createAndAddAlbum(unqfy, 'Persa', 'AlbumName',1900)
+    }).to.throw("No existe el artista con nombre Persa")
   })
  })
   it('should add a track to an album', () => {
@@ -78,12 +80,14 @@ describe('Add, remove and filter data', () => {
     assert.lengthOf(track.genres, 2);
   });
   it('should failing when the artist name dont exist',()=>{
-    expect(()=> createAndAddAlbum(unqfy, 'ArtistDontExistError', 'AlbumName',1900)
-    .to.throw("El artista no existe en el sistema"))
+    expect(function() {
+      createAndAddAlbum(unqfy, 'Persa', 'AlbumName',1900)
+    }).to.throw("No existe el artista con nombre Persa")
   })
   it('should failing when the album name dont exist',()=>{
-    expect(()=> createAndAddTrack(unqfy, 'ArtistDontExistError', 'AlbumDontExistError',1900)
-    .to.throw("El album no existe en el sistema"))
+    expect(function () {
+      createAndAddTrack(unqfy, 'Ciro', 'AlbumDontExistError',1900)
+    }).to.throw("El Album no existe en el sistema")
   })
 
   it('should find different things by name', () => {
