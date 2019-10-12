@@ -66,7 +66,7 @@ function addArtist(name, country) {
 function addAlbum(artistName,albumName,albumYear){
   const unqfy = getUNQfy()
   try{
-    unqfy.addAlbum(artistName,{name:albumName,year:albumYear})
+    unqfy.addAlbum(artistName,{name:albumName,year:parseInt(albumYear)})
   }
   catch(e){
    if(e.name === "AlbumExistError"){
@@ -81,10 +81,10 @@ function addAlbum(artistName,albumName,albumYear){
 function addTrack(artistName,albumName,trackName,trackDuration,trackGenre){
   const unqfy = getUNQfy()
   try{
-    unqfy.addTrack(artistName,albumName,{name:trackName,duration:trackDuration,genres:trackGenre})
+    unqfy.addTrack(artistName,albumName,{name:trackName,duration:parseInt(trackDuration),genres:trackGenre})
   }
   catch(e){
-    if(e.name === "TrackExistError"){
+    if(e.name === "ArtistDontExistError"){
       handleError(e)
     }else{
       throw e
@@ -95,13 +95,13 @@ function addTrack(artistName,albumName,trackName,trackDuration,trackGenre){
 
 function createPlaylist(name,maxDuration,genresToInclude){
   const unqfy = getUNQfy()
-  unqfy.createPlaylist(name,genresToInclude,maxDuration)
+  unqfy.createPlaylist(name,genresToInclude,parseInt(maxDuration))
   saveUNQfy(unqfy)
 }
 
 function allArtist(){
   const unqfy = getUNQfy()
-  console.log(unqfy.artists)
+  console.log(unqfy.allArtist())
 }
 
 function allAlbums(){
@@ -116,7 +116,7 @@ function allTracks(){
 
 function allPlaylist(){
   const unqfy = getUNQfy()
-  console.log(unqfy.playlists)
+  console.log(unqfy.allPlaylist())
 }
 
 function albumsByArtistName(artistName){
@@ -161,10 +161,10 @@ function removeTrack(artistName,trackName){
   saveUNQfy(unqfy)
 }
 
-function removeAlbum(artistName,trackName){
+function removeAlbum(artistName,AlbumName){
   const unqfy = getUNQfy()
   try{
-    unqfy.removeAlbum({name:artistName},trackName)
+    unqfy.removeAlbum({name:artistName},AlbumName)
   }catch(e){
     if(e.name === "AlbumDontExistError"){
       handleError(e)
@@ -236,7 +236,7 @@ function main() {
     return albumsByArtistName(params[1])
   }
   if(nombreComando == 'createPlaylist'){
-    return createPlaylist(params[1],params[2],params.slice(2))
+    return createPlaylist(params[1],params[2],params.slice(3))
   }
   if(nombreComando == 'allPlaylist'){
     return allPlaylist()
