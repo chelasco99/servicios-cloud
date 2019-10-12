@@ -1,6 +1,6 @@
 class AlbumDontExistError extends Error{
-    constructor(){
-        super("El Album no existe en el sistema")
+    constructor(message){
+        super(message)
         this.name = "AlbumDontExistError"
     }
 }
