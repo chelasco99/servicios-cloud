@@ -241,6 +241,17 @@ class UNQfy {
     return allTracks
   }
 
+  allArtist(){
+    return this.names(this.artists)
+  }
+
+  allPlaylist(){
+     let res = []
+     this.playlists.forEach(playlist => res.push(playlist.name,playlist.duration(),this.names(playlist.tracks)))
+     return res
+    
+  }
+
   searchByName(name){
     /* retorna todos los tracks, albums, artistas 
        y playlists que tengan incluido el nombre indicado e imprime sus nombres en pantalla
@@ -309,10 +320,10 @@ class UNQfy {
         this.playlists.map(playlist => playlist.removeAllTracksAlbum(album))
         console.log("Se ha eliminado el album " + albumName + " del artista" + artistName.name + " correctamente")
       }else {
-        throw Error("No se pudo eliminar el album " + albumName + " ya que no existe")
+        throw new AlbumDontExistError("No se pudo eliminar el album " + albumName + " ya que no existe")
       }
     }else {
-      throw Error("No se pudo eliminar el album " + albumName +" ya que no existe el artista " + artistName.name)
+      throw new ArtistDontExistError("No se pudo eliminar el album " + albumName +" ya que no existe el artista " + artistName.name)
     }
   }
 
