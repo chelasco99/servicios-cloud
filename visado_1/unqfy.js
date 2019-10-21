@@ -188,7 +188,7 @@ class UNQfy {
     const rp = require('request-promise')
     const options = {
       url : 'https://api.spotify.com/v1/search/',
-      headers: {Authorization: 'Bearer ' + 'BQAlE8qX0T8IPfwSEOsE8qtBXONt5ubZSC9boV5UQMdOKqkftUlwfs4vrkZZ7ou6VyQVbgoTufeDZCrgoETJraYiH6LdAK3aYnYc5T4QEvzil-Zkq9l3p_y6YGb-7HxIyLVa3gGXLuAOKx-kDMuZ58RQItt0ntumFAC2pcJRf4vJIoWJI-Wm' },
+      headers: {Authorization: 'Bearer ' + 'BQBVXV9NlMIRVJlzDVmFuIWVAt4QXbfu2Om7JhqEmCm5tETxV0EQ1z6MD3JUsreTRcG93ONd6sjxblbSVqyOIzCANvdBXOUUrn9M0GPn0CVAZijwUydX0h78zkgfF5HZ7LFno7u0-2yHHZxrzMZhoTmI3jGIXGlRrQo_9lHkQPFZ30wUhxHD' },
       json:true,
       qs: {
         type: 'artist',
@@ -207,11 +207,11 @@ class UNQfy {
     const rp = require('request-promise')
     const options = {
       url : 'https://api.spotify.com/v1/artists/' + id + '/albums',
-      headers: {Authorization: 'Bearer ' + 'BQAlE8qX0T8IPfwSEOsE8qtBXONt5ubZSC9boV5UQMdOKqkftUlwfs4vrkZZ7ou6VyQVbgoTufeDZCrgoETJraYiH6LdAK3aYnYc5T4QEvzil-Zkq9l3p_y6YGb-7HxIyLVa3gGXLuAOKx-kDMuZ58RQItt0ntumFAC2pcJRf4vJIoWJI-Wm' },
+      headers: {Authorization: 'Bearer ' + 'BQBVXV9NlMIRVJlzDVmFuIWVAt4QXbfu2Om7JhqEmCm5tETxV0EQ1z6MD3JUsreTRcG93ONd6sjxblbSVqyOIzCANvdBXOUUrn9M0GPn0CVAZijwUydX0h78zkgfF5HZ7LFno7u0-2yHHZxrzMZhoTmI3jGIXGlRrQo_9lHkQPFZ30wUhxHD' },
       json:true
     }
     rp.get(options).then((response)=>{
-      let albumsToAdd = [...new Set(response.items)]
+      let albumsToAdd = [...new Set(response.items)] // Spread
       this.createAndAddAlbumsToArtist(artistName,albumsToAdd)
     })
   }
