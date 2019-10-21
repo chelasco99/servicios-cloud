@@ -1,4 +1,3 @@
-
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const Artista = require('./exports/artist.js')
@@ -11,7 +10,6 @@ const Playlist = require('./exports/playlist.js')
 const AlbumDontExistError = require('./exports/errors/albumDontExistError')
 const ArtistDontExistError = require('./exports/errors/artistDontExistError')
 const TrackExistError = require('./exports/errors/trackExistError')
-
 
 class UNQfy {
   
@@ -167,7 +165,7 @@ class UNQfy {
     if(artist !== undefined){
       return artist
     } else{
-      throw Error("No existe el artista con nombre " + artistName)
+      throw new ArtistDontExistError()
     }
   }
 
@@ -186,6 +184,52 @@ class UNQfy {
     }
   }
 
+  populateAlbumsForArtist(artistName){
+    const rp = require('request-promise')
+    const options = {
+      url : 'https://api.spotify.com/v1/search/',
+      headers: {Authorization: 'Bearer ' + 'BQAlE8qX0T8IPfwSEOsE8qtBXONt5ubZSC9boV5UQMdOKqkftUlwfs4vrkZZ7ou6VyQVbgoTufeDZCrgoETJraYiH6LdAK3aYnYc5T4QEvzil-Zkq9l3p_y6YGb-7HxIyLVa3gGXLuAOKx-kDMuZ58RQItt0ntumFAC2pcJRf4vJIoWJI-Wm' },
+      json:true,
+      qs: {
+        type: 'artist',
+        q: artistName,
+        limit: 1
+      }
+    }
+    rp.get(options).then((response) =>{
+      console.log(response.artists.items)
+      console.log('ID del artista consultado :',response.artists.items[0].id)
+      this.reqGetAlbumsByArtistID(artistName,response.artists.items[0].id)
+    })
+  }
+
+  reqGetAlbumsByArtistID(artistName,id){
+    const rp = require('request-promise')
+    const options = {
+      url : 'https://api.spotify.com/v1/artists/' + id + '/albums',
+      headers: {Authorization: 'Bearer ' + 'BQAlE8qX0T8IPfwSEOsE8qtBXONt5ubZSC9boV5UQMdOKqkftUlwfs4vrkZZ7ou6VyQVbgoTufeDZCrgoETJraYiH6LdAK3aYnYc5T4QEvzil-Zkq9l3p_y6YGb-7HxIyLVa3gGXLuAOKx-kDMuZ58RQItt0ntumFAC2pcJRf4vJIoWJI-Wm' },
+      json:true
+    }
+    rp.get(options).then((response)=>{
+      let albumsToAdd = [...new Set(response.items)]
+      this.createAndAddAlbumsToArtist(artistName,albumsToAdd)
+    })
+  }
+
+  createAndAddAlbumsToArtist(artistName,albumsToAdd){
+    try {
+      let artist = this.getArtistByName(artistName)
+      console.log()
+      albumsToAdd.map(item=> artist.addAlbum(new Album(artist.id,item.name,item.release_date.slice(0,4))))
+      console.log(artist)
+    }catch(e){
+      if(e.name == 'ArtistDontExistError'){
+        console.log(e)
+      }else{
+        throw e
+      }
+    }
+  }
   getAlbumByNameAndArtistID(name, artistID) {
     return this.getAllAlbums().find(album => (album.name === name) && album.artistID === artistID)
 }
@@ -372,3 +416,6 @@ module.exports = {
   UNQfy,
 };
 
+const uqnf = new UNQfy()
+uqnf.addArtist({name: 'Ciro', country:'Argentina'})
+uqnf.populateAlbumsForArtist('Ciro')
