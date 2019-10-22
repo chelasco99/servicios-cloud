@@ -90,7 +90,7 @@ class UNQfy {
        throw new TrackExistError()
        }
     } else{
-       throw new AlbumDontExistError()
+       throw new AlbumDontExistError("El Album no existe en el sistema")
       } 
   }
 

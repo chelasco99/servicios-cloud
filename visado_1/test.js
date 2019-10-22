@@ -65,7 +65,7 @@ describe('Add, remove and filter data', () => {
   it('should failing when the artist name dont exist',()=>{
     expect(function (){
         createAndAddAlbum(unqfy, 'Persa', 'AlbumName',1900)
-    }).to.throw("No existe el artista con nombre Persa")
+    }).to.throw("El artista no existe en el sistema")
   })
  })
   it('should add a track to an album', () => {
@@ -82,7 +82,7 @@ describe('Add, remove and filter data', () => {
   it('should failing when the artist name dont exist',()=>{
     expect(function() {
       createAndAddAlbum(unqfy, 'Persa', 'AlbumName',1900)
-    }).to.throw("No existe el artista con nombre Persa")
+    }).to.throw("El artista no existe en el sistema")
   })
   it('should failing when the album name dont exist',()=>{
     expect(function () {
