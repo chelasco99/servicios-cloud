@@ -1,4 +1,5 @@
 const ID = require('./idGenerator')
+
 class Track{
     constructor(albumId,name,duration,genres){
         this.id = ID()
@@ -6,6 +7,7 @@ class Track{
         this.name = name
         this.duration = duration
         this.genres = genres
+        this.lyrics = ""
     }
     
     addGenre(genreName){
@@ -26,6 +28,21 @@ class Track{
     
     getDuration(){
         return this.duration
+    }
+
+    getLyrics(){
+        if(this.lyrics != ""){
+            return this.lyrics
+        }
+        return "Este track no tiene letra asignada todavía"
+    }
+
+    saveLyrics(lyrcis){
+        this.lyrics = lyrcis
+    }
+
+    hasLyrics(){
+        return this.lyrics !== ""
     }
 }
 
