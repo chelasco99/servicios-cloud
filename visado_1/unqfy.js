@@ -188,7 +188,7 @@ class UNQfy {
     const rp = require('request-promise')
     const options = {
       url : 'https://api.spotify.com/v1/search/',
-      headers: {Authorization: 'Bearer ' + 'BQBVXV9NlMIRVJlzDVmFuIWVAt4QXbfu2Om7JhqEmCm5tETxV0EQ1z6MD3JUsreTRcG93ONd6sjxblbSVqyOIzCANvdBXOUUrn9M0GPn0CVAZijwUydX0h78zkgfF5HZ7LFno7u0-2yHHZxrzMZhoTmI3jGIXGlRrQo_9lHkQPFZ30wUhxHD' },
+      headers: {Authorization: 'Bearer ' + 'BQCXXBSlSr1SaoCokcsD-YiAh9XaCNxi35RlpLSPOzAgfMJs9M_94X5bSFTh_QnNL1VsyqaVp8FQYJjGqwJVq72pYf03SNom2ta92fakua5CJs1yfgSyzsjkDuasp9wXuMeG8zy4oZch9SboGFt3mJRblO8yPK8Udpz2CgGi2hmrOPuoBVCT' },
       json:true,
       qs: {
         type: 'artist',
@@ -207,7 +207,7 @@ class UNQfy {
     const rp = require('request-promise')
     const options = {
       url : 'https://api.spotify.com/v1/artists/' + id + '/albums',
-      headers: {Authorization: 'Bearer ' + 'BQBVXV9NlMIRVJlzDVmFuIWVAt4QXbfu2Om7JhqEmCm5tETxV0EQ1z6MD3JUsreTRcG93ONd6sjxblbSVqyOIzCANvdBXOUUrn9M0GPn0CVAZijwUydX0h78zkgfF5HZ7LFno7u0-2yHHZxrzMZhoTmI3jGIXGlRrQo_9lHkQPFZ30wUhxHD' },
+      headers: {Authorization: 'Bearer ' + 'BQCXXBSlSr1SaoCokcsD-YiAh9XaCNxi35RlpLSPOzAgfMJs9M_94X5bSFTh_QnNL1VsyqaVp8FQYJjGqwJVq72pYf03SNom2ta92fakua5CJs1yfgSyzsjkDuasp9wXuMeG8zy4oZch9SboGFt3mJRblO8yPK8Udpz2CgGi2hmrOPuoBVCT' },
       json:true
     }
     rp.get(options).then((response)=>{
