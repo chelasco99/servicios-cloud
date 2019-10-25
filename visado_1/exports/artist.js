@@ -40,10 +40,10 @@ class Artista{
     
     toJSON() {
         return {
-            id: artist.id,
-            name: artist.name,
-            country: artist.country,
-            albums: artist.albums
+            id: this.id,
+            name: this.name,
+            country: this.country,
+            albums: this.albums
         }
     }
 }
