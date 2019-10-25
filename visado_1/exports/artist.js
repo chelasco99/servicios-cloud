@@ -38,6 +38,14 @@ class Artista{
         return this.albums.filter(alb => alb.name.includes(name))
     }
     
+    toJSON() {
+        return {
+            id: artist.id,
+            name: artist.name,
+            country: artist.country,
+            albums: artist.albums
+        }
+    }
 }
 
 

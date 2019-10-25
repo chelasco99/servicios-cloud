@@ -23,7 +23,37 @@ let unqfy = getUNQfy();
 app.use(bodyParser.json())
 app.use('/api',router)
 
-router.route('/artist').post((req,res)=>{
+router.route('/artists').get((req,res)=> {
+    let artists = unqfy.getAllArtists()
+    artists.map(artist => artist.toJSON())
+    saveUNQfy(unqfy,'data.json')
+    res.status(200)
+    res.json(artists)
+    
+})
+
+router.route('/artists/:id').put((req,res)=> {
+    try{
+        let artist = unqfy.updateArtist(req.params.id,req.body)
+        res.status(200)
+        res.json({
+            id: artist.id,
+            name: artist.name,
+            country: artist.country,
+            albums: artist.albums
+        })
+        saveUNQfy(unqfy, 'data.json')
+    }catch(e) {
+        let error = new errors.ResourceNotFound()
+        res.status(error.status)
+        res.json({
+            status: error.status,
+            errorCode:error.errorCode  
+        })
+    }
+
+})
+router.route('/artists').post((req,res)=>{
     try{
         console.log(req.body)
         let artist = unqfy.addArtist({name:req.body.name,country:req.body.country})

@@ -345,6 +345,10 @@ class UNQfy {
     return this.names(this.artists)
   }
 
+  getAllArtist(){
+    return this.artists
+  }
+
   allPlaylist(){
      let res = []
      this.playlists.forEach(playlist => res.push(playlist.name,playlist.duration(),this.names(playlist.tracks)))
@@ -388,6 +392,13 @@ class UNQfy {
     // retorna todos los artistas que tengan incluido el nombre indicado
     return this.artists.filter(artist => artist.name.includes(name))
   }
+
+  updateArtist(idArtist,data){
+    let artista = this.getArtistById(idArtist) 
+    artista.name = data.name
+    artista.country = data.country
+    return artista
+}
 
   removeTrack(artistName,trackName){
     /* remueve el track con el nombre indicado del artista indicado del sistema
