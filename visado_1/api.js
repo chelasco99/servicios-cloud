@@ -84,6 +84,36 @@ router.route('/artists').get((req,res)=>{
     }    
 })
 
+router.route('/tracks/:id/lyrics').get((req,res)=>{
+    let idTrack = req.params.id
+    try{
+        let track = unqfy.getTrackById(idTrack)
+         if(track.lyrics === ""){
+           let letra = unqfy.getLyricsForTrackId(idTrack)
+           res.status(200)
+           letra.then(()=>{
+            unqfy.save('data.json')
+            res.json({
+            Name: track.name,
+            lyrics : track.getLyrics()
+            })
+           })
+         }else{
+             res.status(200)
+             res.json({
+                 Name: track.name,
+                 lyrics: track.getLyrics()
+             })
+         }
+    }catch(e){
+        let error = new errors.ResourceNotFound()
+        res.status(error.status)
+        res.json({
+            status: error.status,
+            errorCode: error.errorCode
+        })
+    }
+})
 
 app.listen(8000, ()=>{
     console.log('Servidor corriendo en el puerto 8000')
