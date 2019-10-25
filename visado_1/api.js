@@ -24,7 +24,7 @@ app.use(bodyParser.json())
 app.use('/api',router)
 
 router.route('/artists').get((req,res)=> {
-    let artists = unqfy.getAllArtists()
+    let artists = unqfy.artists
     artists.map(artist => artist.toJSON())
     saveUNQfy(unqfy,'data.json')
     res.status(200)
@@ -76,7 +76,7 @@ router.route('/artists').post((req,res)=>{
     }
 })
 
-router.route('/artist/:id').get((req,res)=>{
+router.route('/artists/:id').get((req,res)=>{
     const id = req.params.id
     const artist = unqfy.getArtistById(id)
     res.status(200)
