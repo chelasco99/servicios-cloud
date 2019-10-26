@@ -386,10 +386,16 @@ class UNQfy {
   }
 
   updateArtist(idArtist,data){
-    let artista = this.getArtistById(idArtist) 
-    artista.name = data.name
-    artista.country = data.country
-    return artista
+    let artista = this.getArtistById(idArtist)
+    let artistName = artista.name 
+    if(this.artists.every(artist=> artist.name !== data.name)){
+     artista.name = data.name
+     artista.country = data.country
+     console.log('El artista con nombre ' + artistName + ' cambio a ' + data.name)
+     return artista
+    }else{
+      throw new Error('El nombre ' + data.name + ' ya esta ocupado.')
+    } 
   }
 
   removeTrack(artistName,trackName){
