@@ -84,6 +84,85 @@ router.route('/artists').get((req,res)=>{
     }    
 })
 
+////Albums///
+
+router.route('/album').post((req,res)=>{    
+    const artist = unqfy.getArtistById(req.body.artistId)
+    try{
+        let album = unqfy.addAlbum(artist.name,{artistId:req.body.id,name:req.body.name,year:req.body.year})
+        saveUNQfy(unqfy,'data.json')
+        res.status(201)
+        res.json({
+            id:album.id,
+            name:album.name,
+            year:album.year,
+            tracks:album.tracks
+        })
+    }catch(e){
+        let error = new errors.DuplicateEntitie()
+        console.log('Ocurrio un error ',e.message)
+        res.status(error.status)
+        res.json({
+            status: error.status,
+            errorCode:error.errorCode  
+        })
+    }
+})
+
+router.route('/album/:id').get((req,res)=>{
+    const id = req.params.id
+    const album = unqfy.getAlbumById(id)
+    res.status(200)
+    res.json(album)
+})
+
+///Actualizo el año de un album
+router.route('/album/:id').patch((req,res)=>{
+    const id = req.params.id
+    const body = req.body
+    const album = unqfy.getAlbumById(id)
+    album.year = body.year
+    saveUNQfy(unqfy,'data.json')
+    res.status(200)
+    res.json(album)
+
+})
+
+router.route('/album/:id').delete((req,res)=>{
+    try{ 
+        const id = req.params.id
+        const album = unqfy.getAlbumById(id)
+        console.log(album)
+        const artist = unqfy.getArtistById(album.artistID)
+        console.log(artist)  
+        unqfy.removeAlbum(artist,album.name)
+        console.log(artist)
+        saveUNQfy(unqfy,'data.json')
+        res.status(204)
+        res.json(artist)
+    }catch(e){
+        let error = new errors.ResourceNotFound()
+        console.log('Ocurrio un error',e.message)
+        res.status(error.status)    
+    }
+})
+
+router.route('/albums').get((req,res)=>{
+    if(req.query.name != undefined){
+        try{
+            let album = unqfy.getAlbumByName(req.query.name)
+            res.json(album)
+        }catch(e){
+            let error = new errors.ResourceNotFound()
+            res.status(error.status)
+            res.json(error)
+        }
+    }else{
+        const albums = unqfy.albums
+        let jsonAlbums = albums.map(album=> album.name)
+        res.json(jsonAlbums)
+    }    
+})
 
 app.listen(8000, ()=>{
     console.log('Servidor corriendo en el puerto 8000')

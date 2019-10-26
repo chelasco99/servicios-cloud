@@ -244,6 +244,16 @@ class UNQfy {
         }
   }
 
+  getAlbumByName(albumName){
+    let albums = this.getAllAlbums()
+    let album = albums.find(album => album.name === albumName)
+    if(album !== undefined){
+      return album
+    }else{
+      throw new AlbumDontExistError
+    }
+  }
+
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres) {
