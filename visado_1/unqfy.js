@@ -161,7 +161,7 @@ class UNQfy {
 
   getArtistByName(artistName){
     // Retorna al artista con el nombre indicado, si es que existe
-    let artist = this.artists.find(artist => artist.name === artistName)
+    let artist = this.artists.find(artist => artist.name.toLowerCase() === artistName.toLowerCase())
     if(artist !== undefined){
       return artist
     } else{
@@ -279,18 +279,15 @@ class UNQfy {
 
   getLyricsForTrackId(trackId){
     let track = this.getTrackById(trackId)
-    let album = this.getAlbumById(track.albumId)
-    let artist = this.getArtistById(album.artistID)
     if(track.hasLyrics()){
       return track.getLyrics()
     }
-    return this.getLyricsFromMusixMatch(track.name,artist.name).then((lyrics)=>{
+    return this.getLyricsFromMusixMatch(track.name).then((lyrics)=>{
       track.saveLyrics(lyrics)
-      return lyrics
     })
   }
 
-  getLyricsFromMusixMatch(trackName,artistName){
+  getLyricsFromMusixMatch(trackName){
     const rp = require('request-promise')
     const BASE_URL = 'http://api.musixmatch.com/ws/1.1';
 
@@ -298,19 +295,19 @@ class UNQfy {
       uri: BASE_URL + '/track.search',
       qs:{
           apikey : '9ed805815bd8bedfb3d60b615672e8c2',
-          q_track : trackName,
-          q_artist : artistName
+          q_track : trackName
       },
       json:true
     }
     return rp.get(options).then((response)=>{
-      let header = response.message.header
+      
       let body = response.message.body
-      if(header.status_code!== 200){
-        throw new Error('Error ' + header.status_code)
-      }
-      let trackId = body.track_list[0].track.track_id
-      return this.getLyricsFromId(trackId)
+      if(body.track_list.length != 0){
+       let trackId = body.track_list[0].track.track_id
+       return this.getLyricsFromId(trackId)
+      } 
+    }).catch((e)=>{
+       console.log('No existe un track con nombre ' + trackName + ' en MusixMatch')
     })
   }
 
@@ -328,7 +325,6 @@ class UNQfy {
        return rp.get(options).then((response)=>{
             let body = response.message.body
             let lyrics = body.lyrics.lyrics_body
-            console.log(lyrics)
             return lyrics
         })
   }
@@ -396,7 +392,20 @@ class UNQfy {
 
   searchArtistsByName(name){
     // retorna todos los artistas que tengan incluido el nombre indicado
-    return this.artists.filter(artist => artist.name.includes(name))
+    return this.artists.filter(artist => artist.name.toLowerCase().includes(name.toLowerCase()))
+  }
+
+  updateArtist(idArtist,data){
+    let artista = this.getArtistById(idArtist)
+    let artistName = artista.name 
+    if(this.artists.every(artist=> artist.name !== data.name)){
+     artista.name = data.name
+     artista.country = data.country
+     console.log('El artista con nombre ' + artistName + ' cambio a ' + data.name)
+     return artista
+    }else{
+      throw new Error('El nombre ' + data.name + ' ya esta ocupado.')
+    } 
   }
 
   removeTrack(artistName,trackName){
@@ -443,9 +452,9 @@ class UNQfy {
     */
     let artist = this.getArtistByName(artistName.name)
     if(artist !== undefined){
-      this.artists = this.artists.filter(art => art.name !== artistName.name)
+      this.artists = this.artists.filter(art => art.name !== artist.name)
       this.playlists.map(playlist => playlist.removeArtistAlbums(artist))
-      console.log("Se ha eliminado el artista " + artistName.name + " correctamente")
+      console.log("Se ha eliminado el artista " + artist.name + " correctamente")
     }else{
       throw Error("No se pudo eliminar el artista " + artistName.name +" ya que no existe")
     }
