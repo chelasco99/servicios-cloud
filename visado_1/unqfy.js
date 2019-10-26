@@ -161,7 +161,7 @@ class UNQfy {
 
   getArtistByName(artistName){
     // Retorna al artista con el nombre indicado, si es que existe
-    let artist = this.artists.find(artist => artist.name === artistName)
+    let artist = this.artists.find(artist => artist.name.toLowerCase() === artistName.toLowerCase())
     if(artist !== undefined){
       return artist
     } else{
@@ -341,10 +341,6 @@ class UNQfy {
     return this.names(this.artists)
   }
 
-  getAllArtist(){
-    return this.artists
-  }
-
   allPlaylist(){
      let res = []
      this.playlists.forEach(playlist => res.push(playlist.name,playlist.duration(),this.names(playlist.tracks)))
@@ -386,7 +382,7 @@ class UNQfy {
 
   searchArtistsByName(name){
     // retorna todos los artistas que tengan incluido el nombre indicado
-    return this.artists.filter(artist => artist.name.includes(name))
+    return this.artists.filter(artist => artist.name.toLowerCase().includes(name.toLowerCase()))
   }
 
   updateArtist(idArtist,data){
@@ -394,7 +390,7 @@ class UNQfy {
     artista.name = data.name
     artista.country = data.country
     return artista
-}
+  }
 
   removeTrack(artistName,trackName){
     /* remueve el track con el nombre indicado del artista indicado del sistema
@@ -440,9 +436,9 @@ class UNQfy {
     */
     let artist = this.getArtistByName(artistName.name)
     if(artist !== undefined){
-      this.artists = this.artists.filter(art => art.name !== artistName.name)
+      this.artists = this.artists.filter(art => art.name !== artist.name)
       this.playlists.map(playlist => playlist.removeArtistAlbums(artist))
-      console.log("Se ha eliminado el artista " + artistName.name + " correctamente")
+      console.log("Se ha eliminado el artista " + artist.name + " correctamente")
     }else{
       throw Error("No se pudo eliminar el artista " + artistName.name +" ya que no existe")
     }
