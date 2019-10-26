@@ -42,8 +42,8 @@ class Artista{
         return {
             id: this.id,
             name: this.name,
+            albums: this.albums,
             country: this.country,
-            albums: this.albums
         }
     }
 }
