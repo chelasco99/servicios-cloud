@@ -23,13 +23,17 @@ let unqfy = getUNQfy();
 app.use(bodyParser.json())
 app.use('/api',router)
 
-router.route('/artists').get((req,res)=> {
-    let artists = unqfy.artists
-    artists.map(artist => artist.toJSON())
-    saveUNQfy(unqfy,'data.json')
-    res.status(200)
-    res.json(artists)
-    
+router.route('/artists').get((req,res)=>{
+    if(req.query.name){ 
+        let artists = unqfy.searchArtistsByName(req.query.name.toLowerCase())
+        artists = artists.map(artist=> artist.toJSON())
+        res.json(artists)
+    }    
+    else{
+        const artists = unqfy.artists
+        let jsonArtists = artists.map(artist => artist.toJSON())
+        res.json(jsonArtists)
+    }    
 })
 
 router.route('/artists/:id').put((req,res)=> {
@@ -78,13 +82,22 @@ router.route('/artists').post((req,res)=>{
 
 router.route('/artists/:id').get((req,res)=>{
     const id = req.params.id
+   try{
     const artist = unqfy.getArtistById(id)
     res.status(200)
     res.json(artist)
+   }catch(e){
+      let error = new errors.ResourceNotFound()
+      res.status(error.status)
+      res.json({
+          status: error.status,
+          errorCode: error.errorCode
+      })
+   } 
 })
 
 router.route('/artist/:id').patch((req,res)=>{
-    // Verificar que el nuevo nombre no exista en el sistema
+   try{ 
     const id = req.params.id
     const body = req.body
     const artist = unqfy.getArtistById(id)
@@ -93,25 +106,35 @@ router.route('/artist/:id').patch((req,res)=>{
     saveUNQfy(unqfy,'data.json')
     res.status(200)
     res.json(artist)
-    
+   }catch(e){
+       let error = new errors.DuplicateEntitie()
+       res.status(error.status)
+       res.json({
+           status: error.status,
+           errorCode: error.errorCode
+       })
+   } 
 })
 
-router.route('/artists').get((req,res)=>{
-    if(req.query.name != undefined){
-        try{
-         let artist = (unqfy.getArtistByName(req.query.name))
-         res.json(artist)
-        } catch(e){
-            let error = new errors.ResourceNotFound()
-            res.status(error.status)
-            res.json(error)
-        }  
-    }    
-    else{
-        const artists = unqfy.artists
-        let jsonArtists = artists.map(item=> item.name)
-        res.json(jsonArtists)
-    }    
+
+
+router.route('/artists/:id').delete((req,res)=>{
+    console.log(req.params.id)
+    try{
+      let artist = unqfy.getArtistById(req.params.id)
+      console.log(artist.name)
+      unqfy.removeArtist(artist)
+      saveUNQfy(unqfy,'data.json')
+      res.status(204)
+    } catch(e){
+        console.log(e)
+        let error = new errors.ResourceNotFound()
+        res.status(error.status)
+        res.json({
+            status: error.status,
+            errorCode: error.errorCode
+        })
+    }
 })
 
 router.route('/tracks/:id/lyrics').get((req,res)=>{
