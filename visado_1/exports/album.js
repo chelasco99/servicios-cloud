@@ -28,6 +28,15 @@ class Album {
     removeTrack(trackName){
         this.tracks = this.tracks.filter(track => track.name !== trackName)
     }
+
+    toJSON(){
+        return {
+            id: this.id,
+            name: this.name,
+            year: this.year,
+            tracks: this.tracks
+        }
+    }
 }
 
 module.exports = Album
