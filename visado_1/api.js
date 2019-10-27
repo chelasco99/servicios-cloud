@@ -158,18 +158,15 @@ router.route('/artists/:id').delete((req,res)=>{
 
 ////Albums///
 
-router.route('/album').post((req,res)=>{    
-    const artist = unqfy.getArtistById(req.body.artistId)
+router.route('/albums').post((req,res)=>{  
     try{
-        let album = unqfy.addAlbum(artist.name,{artistId:req.body.id,name:req.body.name,year:req.body.year})
+        let artist = unqfy.getArtistById(req.body.artistId)
+        console.log(artist)
+        let album = unqfy.addAlbum(artist.name,{artistId:artist.id,name:req.body.name,year:req.body.year})
+        console.log(album)
         saveUNQfy(unqfy,'data.json')
         res.status(201)
-        res.json({
-            id:album.id,
-            name:album.name,
-            year:album.year,
-            tracks:album.tracks
-        })
+        res.json(album)
     }catch(e){
         let error = new errors.DuplicateEntitie()
         console.log('Ocurrio un error ',e.message)
@@ -181,11 +178,11 @@ router.route('/album').post((req,res)=>{
     }
 })
 
-router.route('/album/:id').get((req,res)=>{
+router.route('/albums/:id').get((req,res)=>{
     const id = req.params.id
     const album = unqfy.getAlbumById(id)
     res.status(200)
-    res.json(album)
+    res.json(album.toJSON())
 })
 
 ///Actualizo el año de un album
@@ -200,39 +197,35 @@ router.route('/album/:id').patch((req,res)=>{
 
 })
 
-router.route('/album/:id').delete((req,res)=>{
+router.route('/albums/:id').delete((req,res)=>{
     try{ 
         const id = req.params.id
         const album = unqfy.getAlbumById(id)
-        console.log(album)
         const artist = unqfy.getArtistById(album.artistID)
-        console.log(artist)  
         unqfy.removeAlbum(artist,album.name)
-        console.log(artist)
         saveUNQfy(unqfy,'data.json')
         res.status(204)
         res.json(artist)
     }catch(e){
         let error = new errors.ResourceNotFound()
-        console.log('Ocurrio un error',e.message)
+        console.log('Ocurrio un error',e)
         res.status(error.status)    
     }
 })
 
 router.route('/albums').get((req,res)=>{
-    if(req.query.name != undefined){
+    if(req.query.name){
         try{
-            let album = unqfy.getAlbumByName(req.query.name)
-            res.json(album)
+            let albums = unqfy.searchAlbumsByName(req.query.name)
+            res.json(albums)
         }catch(e){
             let error = new errors.ResourceNotFound()
             res.status(error.status)
             res.json(error)
         }
     }else{
-        const albums = unqfy.albums
-        let jsonAlbums = albums.map(album=> album.name)
-        res.json(jsonAlbums)
+        let albums = unqfy.getAllAlbums()
+        res.json(albums.map(album => album.toJSON()))
     }    
 })
 
