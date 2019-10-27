@@ -393,7 +393,7 @@ class UNQfy {
   searchAlbumsByName(name){
     // retorna todos los albums que tengan incluido el nombre indicado
     let albums = this.getAllAlbums()
-    return albums.filter(album => album.name.includes(name))
+    return albums.filter(album => album.name.toLowerCase().includes(name.toLowerCase()))
   }
   
   searchPlaylistByName(name){
