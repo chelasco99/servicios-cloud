@@ -236,6 +236,8 @@ router.route('/albums').get((req,res)=>{
     }    
 })
 
+/// Track ///
+
 router.route('/tracks/:id/lyrics').get((req,res)=>{
     let idTrack = req.params.id
     try{
@@ -266,6 +268,60 @@ router.route('/tracks/:id/lyrics').get((req,res)=>{
         })
     }
 })
+
+/// PLAYLISTS ///
+
+router.route('/playlists').post((req,res) => {
+    try{
+        console.log(req.body)
+        let playlist = unqfy.createPlaylist({name:req.body.name,genre:req.body.genresToInclude,max:req.body.maxDuration})
+        res.status(201)
+        res.json({
+            playlistId: playlist.playlistId,
+            name: playlist.name,
+            genres: playlist.genres,
+            tracks: playlist.tracks,
+            maxDuration: playlist.max,
+            currentDuration: playlist.currentDuration
+        })
+        saveUNQfy(unqfy,'data.json')
+        }
+        catch(e){
+             let error = new errors.DuplicateEntitie()
+             console.log('Ocurrio un error ',e.message)
+             res.status(error.status)
+             res.json({
+                 status: error.status,
+                 errorCode:error.errorCode  
+             })
+         }
+})
+
+
+router.route('/playlists/:id').get((req,res) => {
+    let id = req.params.id
+    let playlist = unqfy.getPlaylistById(id)
+    res.status(200)
+    res.json(playlist)
+    
+})
+
+
+//No anda 
+router.route('playlists').get((req,res)=> {
+    if(req.query.name != undefined & req.body.durationLT < 300 & req.body.durationGT > 100){
+        try{
+            let playlist = unqfy.getPlaylistByNameDuration(req.query.name,req.body.durationLT,req.body.durationGT)
+            res.json(playlist)
+        }catch(e){
+            let error = new errors.ResourceNotFound()
+            res.status(error.status)
+            res.json(error)
+        }
+    } 
+})
+
+
 
 app.listen(8000, ()=>{
     console.log('Servidor corriendo en el puerto 8000')
