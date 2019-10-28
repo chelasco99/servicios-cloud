@@ -25,6 +25,12 @@ class ResourceNotFound extends RequestError{
     }
 }
 
+class BadRequest extends RequestError{
+    constructor(){
+        super('BadRequestError',400,"BAD_REQUEST")
+    }
+}
+
 class UnexpectedError extends RequestError{
     constructor(){
         super('UnexpectedError',500,"INTERNAL_SERVER_ERROR")
@@ -35,6 +41,7 @@ module.exports = {
     DuplicateEntitie,
     ResourceNotFound,
     RelatedResourceNotFound,
+    BadRequest,
     UnexpectedError
   };
 
