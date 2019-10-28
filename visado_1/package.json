@@ -6,6 +6,7 @@
   "dependencies": {
     "chai": "^4.1.2",
     "express": "^4.17.1",
+    "express-json-validator-middleware": "^2.0.0",
     "picklify": "github:lwoites/picklify",
     "request": "^2.88.0"
   },
