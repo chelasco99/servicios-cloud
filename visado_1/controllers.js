@@ -1,4 +1,5 @@
 let errors = require('./apiErrors.js')
+let AlbumExistError = require('./exports/errors/albumExistError')
 let BadRequest = errors.BadRequest
 
 let resourceNotFound = new errors.ResourceNotFound()
@@ -71,6 +72,7 @@ class ArtistController{
             let artist = unqfy.getArtistById(req.params.id)
             unqfy.removeArtist(artist)
             res.status(204)
+            res.json("Artista eliminado correctamente")
         } catch(e){
             res.status(resourceNotFound.status)
             res.json({
@@ -107,14 +109,17 @@ class AlbumController {
             res.status(201)
             res.json(album)
         }catch(e){
-
             if(e instanceof BadRequest){
                 res.status(badRequest.status)
                 res.json({
                     status: badRequest.status,
                     errorCode: badRequest.errorCode
                 })
-            } else{
+            } 
+            else if(e instanceof AlbumExistError){
+                res.status(duplicateEntitie.status)
+                res.json({status:duplicateEntitie.status,errorCode:duplicateEntitie.errorCode})
+            }else{
                 res.status(relatedNotFound.status)
                 res.json({
                     status: relatedNotFound.status,
@@ -141,7 +146,7 @@ class AlbumController {
     updateAlbum(unqfy,req,res){
         try{
             let album = unqfy.getAlbumById(req.params.id)
-            album.year = req.params.year
+            album.year = req.body.year
             res.json(album.toJSON())
         }catch(e){
             res.status(resourceNotFound.status)
@@ -157,6 +162,8 @@ class AlbumController {
             let album = unqfy.getAlbumById(req.params.id)
             let artist = unqfy.getArtistById(album.artistID)
             unqfy.removeAlbum(artist,album.name)
+            res.status(204)
+            res.json("Album eliminado correctamente")
         }catch(e){
             res.status(resourceNotFound.status)
             res.json({
