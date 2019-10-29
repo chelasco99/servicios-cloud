@@ -233,7 +233,7 @@ router.route('/tracks/:id/lyrics').get((req,res)=>{
 router.route('/playlists').post((req,res) => {
     try{
         console.log(req.body)
-        let playlist = unqfy.createPlaylist({name:req.body.name,genre:req.body.genresToInclude,max:req.body.maxDuration})
+        let playlist = unqfy.createPlaylist(name=req.body.name,genre=req.body.genresToInclude,max=req.body.maxDuration)
         res.status(201)
         res.json({
             playlistId: playlist.playlistId,
@@ -266,17 +266,13 @@ router.route('/playlists/:id').get((req,res) => {
 })
 
 
-//No anda 
-router.route('playlists').get((req,res)=> {
-    if(req.query.name != undefined & req.body.durationLT < 300 & req.body.durationGT > 100){
-        try{
-            let playlist = unqfy.getPlaylistByNameDuration(req.query.name,req.body.durationLT,req.body.durationGT)
-            res.json(playlist)
-        }catch(e){
-            let error = new errors.ResourceNotFound()
-            res.status(error.status)
-            res.json(error)
-        }
+//Me quiero quedar con todas las playlists con ese name y en el postman las filtro por duracion
+// PERO NO ME ANDA
+router.route('/playlists').get((req,res)=> {
+    let unqfy = getUNQfy()
+    if(req.query.name) {
+        let playlist = unqfy.searchPlaylistByName(req.query.name)
+        res.json(playlist)
     } 
 })
 
