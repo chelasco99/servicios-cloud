@@ -290,54 +290,7 @@ class UNQfy {
 
   getLyricsForTrackId(trackId){
     let track = this.getTrackById(trackId)
-    if(track.hasLyrics()){
-      return track.getLyrics()
-    }
-    return this.getLyricsFromMusixMatch(track.name).then((lyrics)=>{
-      track.saveLyrics(lyrics)
-    })
-  }
-
-  getLyricsFromMusixMatch(trackName){
-    const rp = require('request-promise')
-    const BASE_URL = 'http://api.musixmatch.com/ws/1.1';
-
-    let options = {
-      uri: BASE_URL + '/track.search',
-      qs:{
-          apikey : '9ed805815bd8bedfb3d60b615672e8c2',
-          q_track : trackName
-      },
-      json:true
-    }
-    return rp.get(options).then((response)=>{
-      
-      let body = response.message.body
-      if(body.track_list.length != 0){
-       let trackId = body.track_list[0].track.track_id
-       return this.getLyricsFromId(trackId)
-      } 
-    }).catch((e)=>{
-       console.log('No existe un track con nombre ' + trackName + ' en MusixMatch')
-    })
-  }
-
-  getLyricsFromId(trackId){
-    const rp = require('request-promise');
-        const BASE_URL = 'http://api.musixmatch.com/ws/1.1';
-        let options = {
-            uri: BASE_URL + '/track.lyrics.get',
-            qs: {
-                apikey: '9ed805815bd8bedfb3d60b615672e8c2',
-                track_id: trackId
-            },
-            json:true
-        }
-       return rp.get(options).then((response)=>{
-            let body = response.message.body
-            let lyrics = body.lyrics.lyrics_body
-            return lyrics
-        })
+    return track.getLyrics()
   }
 
   getAllAlbums(){

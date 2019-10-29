@@ -33,9 +33,55 @@ class Track{
     getLyrics(){
         if(this.lyrics != ""){
             return this.lyrics
+        }else{
+            return this.getLyricsFromMusixMatch(this.name)
         }
-        return "Este track no tiene letra asignada todavía"
     }
+
+    getLyricsFromMusixMatch(trackName){
+        const rp = require('request-promise')
+        const BASE_URL = 'http://api.musixmatch.com/ws/1.1';
+    
+        let options = {
+          uri: BASE_URL + '/track.search',
+          qs:{
+              apikey : '9ed805815bd8bedfb3d60b615672e8c2',
+              q_track : trackName
+          },
+          json:true
+        }
+
+        return rp.get(options).then((response)=>{  
+          let body = response.message.body
+          if(body.track_list.length != 0){
+           let trackId = body.track_list[0].track.track_id
+           return this.getLyricsFromId(trackId)
+          } 
+        }).catch((e)=>{
+           throw new Error('No existe un track con nombre ' + this.name + ' en MusixMatch')
+        })
+      }
+    
+      getLyricsFromId(trackId){
+        const rp = require('request-promise');
+            const BASE_URL = 'http://api.musixmatch.com/ws/1.1';
+            let options = {
+                uri: BASE_URL + '/track.lyrics.get',
+                qs: {
+                    apikey: '9ed805815bd8bedfb3d60b615672e8c2',
+                    track_id: trackId
+                },
+                json:true
+            }
+           return rp.get(options).then((response)=>{
+                let body = response.message.body
+                let lyrics = body.lyrics.lyrics_body
+                this.saveLyrics(lyrics)
+                return lyrics
+            }).catch(()=>{
+                throw new Error('No existe un track con nombre ' + this.name + ' en MusixMatch')
+            })
+      }
 
     saveLyrics(lyrcis){
         this.lyrics = lyrcis

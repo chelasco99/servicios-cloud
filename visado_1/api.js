@@ -193,22 +193,24 @@ router.route('/tracks/:id/lyrics').get((req,res)=>{
     let idTrack = req.params.id
     try{
         let track = unqfy.getTrackById(idTrack)
-         if(track.lyrics === ""){
+         if(!track.hasLyrics()){
            let letra = unqfy.getLyricsForTrackId(idTrack)
            res.status(200)
            letra.then(()=>{
             unqfy.save('data.json')
+            res.json({ Name: track.name,lyrics : track.getLyrics() })
+         }).catch((e)=>{
+            console.log(e.message)
+            let error = new errors.ResourceNotFound()
+            res.status(error.status)
             res.json({
-            Name: track.name,
-            lyrics : track.getLyrics()
+                status: error.status,
+                errorCode: error.errorCode
             })
-           })
-         }else{
+         })
+         } else {
              res.status(200)
-             res.json({
-                 Name: track.name,
-                 lyrics: track.getLyrics()
-             })
+             res.json({ Name: track.name, lyrics: track.getLyrics() })
          }
     }catch(e){
         let error = new errors.ResourceNotFound()
@@ -273,9 +275,10 @@ router.route('/playlists').get((req,res)=> {
 
        res.json(playlists) 
     } else{
-        let error = new errors.BadRequest()
-        res.status(error.status)
-        res.json({status:error.status,errorCode:error.errorCode})
+        // let error = new errors.BadRequest()
+        // res.status(error.status)
+        // res.json({status:error.status,errorCode:error.errorCode})
+        res.json(unqfy.playlists)
     } 
 })
 
