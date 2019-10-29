@@ -233,7 +233,7 @@ router.route('/tracks/:id/lyrics').get((req,res)=>{
 router.route('/playlists').post((req,res) => {
     try{
         console.log(req.body)
-        let playlist = unqfy.createPlaylist(name=req.body.name,genre=req.body.genresToInclude,max=req.body.maxDuration)
+        let playlist = unqfy.createPlaylist(req.body.name,req.body.genresToInclude,req.body.maxDuration)
         res.status(201)
         res.json({
             playlistId: playlist.playlistId,
@@ -268,6 +268,7 @@ router.route('/playlists/:id').get((req,res) => {
 
 //Me quiero quedar con todas las playlists con ese name y en el postman las filtro por duracion
 // PERO NO ME ANDA
+/*
 router.route('/playlists').get((req,res)=> {
     let unqfy = getUNQfy()
     if(req.query.name) {
@@ -275,7 +276,33 @@ router.route('/playlists').get((req,res)=> {
         res.json(playlist)
     } 
 })
+*/
 
+router.route('/playlists').get((req,res)=> {
+    let unqfy = getUNQfy()
+    if(req.query.name != undefined && req.query.durationLT<300 && req.query.durationGT>100) {
+        let playlist = unqfy.getPlaylistByNameDuration(req.query.name,req.query.durationLT,req.query.durationGT)
+        res.json(playlist)
+    } 
+})
+
+router.route('/playlists/:id').delete((req,res)=>{
+    try{
+        const id = req.params.id
+        const playlist = unqfy.getPlaylistById(id)
+        console.log(id)
+        console.log(unqfy.playlist)
+        unqfy.removePlaylist(playlist)
+        console.log(unqfy.playlists)
+        saveUNQfy(unqfy,'data.json')
+        res.status(204)
+        res.json(playlist)
+    }catch(e){
+        let error = new Error()
+        console.log("Ocurrio un error", e.message)
+        res.status(error.status)
+    }
+})
 
 
 app.listen(8000, ()=>{

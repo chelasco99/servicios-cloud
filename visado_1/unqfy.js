@@ -471,6 +471,16 @@ class UNQfy {
     }
   }
 
+  removePlaylist(playlistObject){
+    let playlist = this.getPlaylistById(playlistObject.playlistId)
+    if(playlist !== undefined){
+      this.playlists = this.playlists.filter(p => p.name !== playlist.name)
+      console.log("Se ha eliminado la playlist " + playlist.name + " correctamente")
+    }else{
+      throw Error("No se pudo eliminar la playlist" + playlist.name + "ya que no existe")
+    }
+  }
+
   existArtist(artistName){ // retorna si existe el artista con el nombre indicado
     return this.artists.find(artist => artist.name === artistName) !== undefined
   }
