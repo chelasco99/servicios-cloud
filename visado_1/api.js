@@ -178,14 +178,6 @@ router.route('/albums/:id').delete((req,res)=>{
 router.route('/albums').get((req,res)=>{
     let unqfy = getUNQfy()
     if(req.query.name){
-        // try{
-        //     let albums = unqfy.searchAlbumsByName(req.query.name)
-        //     res.json(albums)
-        // }catch(e){
-        //     let error = new errors.ResourceNotFound()
-        //     res.status(error.status)
-        //     res.json(error)
-        // }
         let albums = unqfy.searchAlbumsByName(req.query.name)
         res.json(albums)
     }else{
@@ -231,9 +223,9 @@ router.route('/tracks/:id/lyrics').get((req,res)=>{
 /// PLAYLISTS ///
 
 router.route('/playlists').post((req,res) => {
-    try{
+        let unqfy = getUNQfy()
         console.log(req.body)
-        let playlist = unqfy.createPlaylist(req.body.name,req.body.genresToInclude,req.body.maxDuration)
+        let playlist = unqfy.createPlaylist(req.body.name,req.body.genres,req.body.maxDuration)
         res.status(201)
         res.json({
             playlistId: playlist.playlistId,
@@ -244,16 +236,7 @@ router.route('/playlists').post((req,res) => {
             currentDuration: playlist.currentDuration
         })
         saveUNQfy(unqfy,'data.json')
-        }
-        catch(e){
-             let error = new errors.DuplicateEntitie()
-             console.log('Ocurrio un error ',e.message)
-             res.status(error.status)
-             res.json({
-                 status: error.status,
-                 errorCode:error.errorCode  
-             })
-         }
+        
 })
 
 
@@ -280,11 +263,35 @@ router.route('/playlists').get((req,res)=> {
 
 router.route('/playlists').get((req,res)=> {
     let unqfy = getUNQfy()
-    if(req.query.name != undefined && req.query.durationLT<300 && req.query.durationGT>100) {
-        let playlist = unqfy.getPlaylistByNameDuration(req.query.name,req.query.durationLT,req.query.durationGT)
-        res.json(playlist)
+    let playlists = unqfy.playlists
+    if((req.query.name || req.query.durationLT || req.query.durationGT)) {
+       if(req.query.name){ 
+        playlists = unqfy.searchPlaylistByName(req.query.name)
+       }
+       playlists = filterByDurationGT(playlists,req.query.durationGT)
+       playlists = filterByDurationLT(playlists,req.query.durationLT)
+
+       res.json(playlists) 
+    } else{
+        let error = new errors.BadRequest()
+        res.status(error.status)
+        res.json({status:error.status,errorCode:error.errorCode})
     } 
 })
+
+function filterByDurationGT(playlists,durationGT){
+    if(durationGT){
+        playlists = playlists.filter(playlist => playlist.duration() > durationGT)
+    }
+    return playlists
+}
+
+function filterByDurationLT(playlists,durationLT){
+    if(durationLT){
+        playlists = playlists.filter(playlist => playlist.duration() < durationLT)
+    }
+    return playlists
+}
 
 router.route('/playlists/:id').delete((req,res)=>{
     try{

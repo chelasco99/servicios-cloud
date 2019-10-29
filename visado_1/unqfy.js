@@ -158,17 +158,17 @@ class UNQfy {
     }
   }
 
-  getPlaylistByNameDuration(name,durationLT,durationGT) {
-    let playlistsName = this.playlists.filter(playlist => playlist.name == name)
-    if (playlistsName !== undefined ) {
-      let playlist = playlistsName.filter(playlist => playlist.maxDuration < durationLT && playlist.maxDuration > durationGT )
-        if ( playlist !== undefined) {
-          return playlist
-      }else{
-        throw Error("No existe las playlists con esas duraciones")
-      }
-    } 
-  }
+  // getPlaylistByNameDuration(name,durationLT,durationGT) {
+  //   let playlistsName = this.playlists.filter(playlist => playlist.name == name)
+  //   if (playlistsName !== undefined ) {
+  //     let playlist = playlistsName.filter(playlist => playlist.maxDuration < durationLT && playlist.maxDuration > durationGT )
+  //       if ( playlist !== undefined) {
+  //         return playlist
+  //     }else{
+  //       throw Error("No existe las playlists con esas duraciones")
+  //     }
+  //   } 
+  // }
 
   getArtistByName(artistName){
     // Retorna al artista con el nombre indicado, si es que existe
