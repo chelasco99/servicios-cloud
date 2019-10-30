@@ -21,6 +21,7 @@ class ArtistController{
     updateArtist(unqfy,res,artistId,data){
        try{ 
          let artist = unqfy.updateArtist(artistId,data)
+         unqfy.save('data.json')
          res.json(artist.toJSON())
        }catch(e){
          res.status(resourceNotFound.status)
@@ -35,6 +36,7 @@ class ArtistController{
         try{
             this.chequearBody(req.body)
             let artist = unqfy.addArtist({name:req.body.name,country:req.body.country})
+            unqfy.save('data.json')
             res.status(201)
             res.json(artist.toJSON())
         } catch(e){
@@ -71,6 +73,7 @@ class ArtistController{
         try{
             let artist = unqfy.getArtistById(req.params.id)
             unqfy.removeArtist(artist)
+            unqfy.save('data.json')
             res.status(204)
             res.json("Artista eliminado correctamente")
         } catch(e){
@@ -91,9 +94,6 @@ class ArtistController{
 }
 
 class AlbumController {
-    constructor(artistController){
-        this.controller = artistController
-    }
 
     chequearBody(body){
         if(!(body.artistId && body.name && body.year)){
@@ -106,6 +106,7 @@ class AlbumController {
             this.chequearBody(req.body)
             let artist = unqfy.getArtistById(req.body.artistId)
             let album = unqfy.addAlbum(artist.name,{artistId:artist.id,name:req.body.name,year:req.body.year})
+            unqfy.save('data.json')
             res.status(201)
             res.json(album)
         }catch(e){
@@ -132,6 +133,7 @@ class AlbumController {
     getAlbumById(unqfy,req,res){
         try{
             let album = unqfy.getAlbumById(req.params.id)
+            unqfy.save('data.json')
             res.status(200)
             res.json(album.toJSON())
         } catch(e){
@@ -147,6 +149,7 @@ class AlbumController {
         try{
             let album = unqfy.getAlbumById(req.params.id)
             album.year = req.body.year
+            unqfy.save('data.json')
             res.json(album.toJSON())
         }catch(e){
             res.status(resourceNotFound.status)
@@ -162,6 +165,7 @@ class AlbumController {
             let album = unqfy.getAlbumById(req.params.id)
             let artist = unqfy.getArtistById(album.artistID)
             unqfy.removeAlbum(artist,album.name)
+            unqfy.save('data.json')
             res.status(204)
             res.json("Album eliminado correctamente")
         }catch(e){
@@ -178,6 +182,7 @@ class PlaylistController{
 
     createPlaylistByGenres(unqfy,req,res){
         let playlist = unqfy.createPlaylist(req.body.name,req.body.genres,req.body.maxDuration)
+        unqfy.save('data.json')
         res.status(201)
         res.json(playlist.toJSON())
     }
@@ -198,6 +203,7 @@ class PlaylistController{
             console.log('Se creo correctamente la playlist ')
             console.log(playlist)
             unqfy.addPlaylist(playlist)
+            unqfy.save('data.json')
             res.status(201)
             res.json(playlist.toJSON())
         } catch(e){
@@ -245,6 +251,7 @@ class PlaylistController{
             const id = req.params.id
             const playlist = unqfy.getPlaylistById(id)
             unqfy.removePlaylist(playlist)
+            unqfy.save('data.json')
             res.status(204)
             res.json(playlist)
         }catch(e){
