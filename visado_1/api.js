@@ -109,7 +109,6 @@ app.use(function(err, req, res, next) {
 // ARTISTS
 
 router.route('/artists').get((req,res)=>{
-    let unqfy = getUNQfy()
     if(req.query.name){
         let artists = artistController.getArtistsByName(unqfy,req.query.name)
         res.json(artists)
@@ -119,65 +118,48 @@ router.route('/artists').get((req,res)=>{
 })
 
 router.route('/artists/:id').put((req,res)=> {
-    let unqfy = getUNQfy()
     let artist = artistController.updateArtist(unqfy,res,req.params.id,req.body)
-    saveUNQfy(unqfy,'data.json')
 
 })
 router.route('/artists',validate({body: ArtistSchema})).post((req,res)=>{
-    let unqfy = getUNQfy()
     artistController.createArtist(unqfy,req,res)
-    saveUNQfy(unqfy,'data.json')
 })
 
 router.route('/artists/:id').get((req,res)=>{
-     let unqfy = getUNQfy()
      artistController.getArtistById(unqfy,req,res)
 })
 
 router.route('/artist/:id').patch((req,res)=>{
-    let unqfy = getUNQfy()
     let artist = artistController.updateArtist(unqfy,res,req.params.id,req.body)
-    saveUNQfy(unqfy,'data.json')
 })
 
 
 
 router.route('/artists/:id').delete((req,res)=>{
-    let unqfy = getUNQfy()
     artistController.deleteArtist(unqfy,req,res)
-    saveUNQfy(unqfy,'data.json')
 })
 
-////Albums///
+////ALBUMS///
 
 router.route('/albums',validate({body: AlbumSchema})).post((req,res)=>{  
-    let unqfy = getUNQfy()
     albumController.createAlbum(unqfy,req,res)
-    saveUNQfy(unqfy,'data.json')
 })
 
 router.route('/albums/:id').get((req,res)=>{
-    let unqfy = getUNQfy()
     
     albumController.getAlbumById(unqfy,req,res)
 })
 
 ///Actualizo el año de un album
 router.route('/albums/:id').patch((req,res)=>{
-    let unqfy = getUNQfy()
     albumController.updateAlbum(unqfy,req,res)
-    saveUNQfy(unqfy,'data.json')
 })
 
 router.route('/albums/:id').delete((req,res)=>{
-    let unqfy = getUNQfy()
     albumController.deleteAlbum(unqfy,req,res)
-    saveUNQfy(unqfy,'data.json')
 })
 
 router.route('/albums').get((req,res)=>{
-    let unqfy = getUNQfy()
     if(req.query.name){
         let albums = unqfy.searchAlbumsByName(req.query.name)
         res.json(albums)
@@ -190,7 +172,6 @@ router.route('/albums').get((req,res)=>{
 /// Track ///
 
 router.route('/tracks/:id/lyrics').get((req,res)=>{
-    let unqfy = getUNQfy()
     let idTrack = req.params.id
     try{
         let track = unqfy.getTrackById(idTrack)
@@ -226,24 +207,20 @@ router.route('/tracks/:id/lyrics').get((req,res)=>{
 /// PLAYLISTS ///
 
 router.route('/playlists').post((req,res) => {
-        let unqfy = getUNQfy()
         if(req.body.genres){
             playlistController.createPlaylistByGenres(unqfy,req,res)
         } else{
             playlistController.createPlaylistByTracksIds(unqfy,req,res)
         }
-        saveUNQfy(unqfy,'data.json')
 })
 
 
 router.route('/playlists/:id').get((req,res) => {
-   let unqfy = getUNQfy()
    playlistController.getPlaylistById(unqfy,req,res)
 })
 
 
 router.route('/playlists').get((req,res)=> {
-    let unqfy = getUNQfy()
     if((req.query.name || req.query.durationLT || req.query.durationGT)) { 
           playlistController.filterPlaylists(unqfy,req,res)
     } else{
@@ -255,9 +232,7 @@ router.route('/playlists').get((req,res)=> {
 })
 
 router.route('/playlists/:id').delete((req,res)=>{
-    let unqfy = getUNQfy()
     playlistController.deletePlaylist(unqfy,req,res)
-    saveUNQfy(unqfy,'data.json')
 })
 
 
