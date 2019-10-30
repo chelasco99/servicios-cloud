@@ -49,6 +49,24 @@ class Playlist{
       });
    }
 
+   addGenre(genre){
+      if(!this.genres.includes(genre)){
+         this.genres.push(genre)
+      }
+   }
+
+   toJSON(){
+      return ({
+         id: this.playlistId,
+         name: this.name,
+         duration: this.duration(),
+         tracks: this.tracks
+      })
+   }
+
+   addGenres(genres){
+      this.genres += genres + ','
+   }
 }
 
 module.exports = Playlist
