@@ -94,6 +94,11 @@ class UNQfy {
       } 
   }
 
+  addPlaylist(playList){
+    this.playlists.push(playList)
+  }
+
+
   // name: nombre de la playlist
   // genresToInclude: array de generos
   // maxDuration: duración en segundos
@@ -150,7 +155,7 @@ class UNQfy {
 
   getPlaylistById(id) {
     // retorna la playlist con el id indicado, si es que existe
-    let playList = this.playlists.find(playlist => playlist.playlistId === id)
+    let playList = this.playlists.find(playlist => playlist.playlistId == id)
     if ( playList !== undefined) {
       return playList
     }else {
