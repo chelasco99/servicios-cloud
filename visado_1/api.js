@@ -58,6 +58,7 @@ function saveUNQfy(unqfy, filename = 'data.json') {
 let unqfy = getUNQfy();
 let artistController = new controllers.ArtistController()
 let albumController = new controllers.AlbumController()
+let playlistController = new controllers.PlaylistController()
 
 app.use(bodyParser.json())
 app.use('/api',router)
@@ -226,92 +227,37 @@ router.route('/tracks/:id/lyrics').get((req,res)=>{
 
 router.route('/playlists').post((req,res) => {
         let unqfy = getUNQfy()
-        console.log(req.body)
-        let playlist = unqfy.createPlaylist(req.body.name,req.body.genres,req.body.maxDuration)
-        res.status(201)
-        res.json({
-            playlistId: playlist.playlistId,
-            name: playlist.name,
-            genres: playlist.genres,
-            tracks: playlist.tracks,
-            maxDuration: playlist.max,
-            currentDuration: playlist.currentDuration
-        })
+        if(req.body.genres){
+            playlistController.createPlaylistByGenres(unqfy,req,res)
+        } else{
+            playlistController.createPlaylistByTracksIds(unqfy,req,res)
+        }
         saveUNQfy(unqfy,'data.json')
-        
 })
 
 
 router.route('/playlists/:id').get((req,res) => {
-    let id = req.params.id
-    let playlist = unqfy.getPlaylistById(id)
-    res.status(200)
-    res.json(playlist)
-    
+   let unqfy = getUNQfy()
+   playlistController.getPlaylistById(unqfy,req,res)
 })
 
 
-//Me quiero quedar con todas las playlists con ese name y en el postman las filtro por duracion
-// PERO NO ME ANDA
-/*
 router.route('/playlists').get((req,res)=> {
     let unqfy = getUNQfy()
-    if(req.query.name) {
-        let playlist = unqfy.searchPlaylistByName(req.query.name)
-        res.json(playlist)
-    } 
-})
-*/
-
-router.route('/playlists').get((req,res)=> {
-    let unqfy = getUNQfy()
-    let playlists = unqfy.playlists
-    if((req.query.name || req.query.durationLT || req.query.durationGT)) {
-       if(req.query.name){ 
-        playlists = unqfy.searchPlaylistByName(req.query.name)
-       }
-       playlists = filterByDurationGT(playlists,req.query.durationGT)
-       playlists = filterByDurationLT(playlists,req.query.durationLT)
-
-       res.json(playlists) 
+    if((req.query.name || req.query.durationLT || req.query.durationGT)) { 
+          playlistController.filterPlaylists(unqfy,req,res)
     } else{
         // let error = new errors.BadRequest()
         // res.status(error.status)
         // res.json({status:error.status,errorCode:error.errorCode})
-        res.json(unqfy.playlists)
+        res.json(unqfy.playlists.map(p=>p.toJSON()))
     } 
 })
 
-function filterByDurationGT(playlists,durationGT){
-    if(durationGT){
-        playlists = playlists.filter(playlist => playlist.duration() > durationGT)
-    }
-    return playlists
-}
-
-function filterByDurationLT(playlists,durationLT){
-    if(durationLT){
-        playlists = playlists.filter(playlist => playlist.duration() < durationLT)
-    }
-    return playlists
-}
-
 router.route('/playlists/:id').delete((req,res)=>{
-    try{
-        const id = req.params.id
-        const playlist = unqfy.getPlaylistById(id)
-        console.log(id)
-        console.log(unqfy.playlist)
-        unqfy.removePlaylist(playlist)
-        console.log(unqfy.playlists)
-        saveUNQfy(unqfy,'data.json')
-        res.status(204)
-        res.json(playlist)
-    }catch(e){
-        let error = new Error()
-        console.log("Ocurrio un error", e.message)
-        res.status(error.status)
-    }
+    let unqfy = getUNQfy()
+    playlistController.deletePlaylist(unqfy,req,res)
+    saveUNQfy(unqfy,'data.json')
 })
 
 
