@@ -5,6 +5,13 @@ class RequestError extends Error{
         this.status = status
         this.errorCode = errorCode
     }
+
+    toJSON(){
+        return {
+            status:this.status,
+            errorCode: this.errorCode
+        }
+    }
 }
 
 class DuplicateEntitie extends RequestError{
