@@ -235,7 +235,6 @@ class UNQfy {
   createAndAddAlbumsToArtist(artistName,albumsToAdd){
     try {
       let artist = this.getArtistByName(artistName)
-      console.log()
       albumsToAdd.map(item=> artist.addAlbum(new Album(artist.id,item.name,item.release_date.slice(0,4))))
       console.log(artist)
     }catch(e){
