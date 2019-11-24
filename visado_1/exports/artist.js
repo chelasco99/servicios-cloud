@@ -1,4 +1,5 @@
 const ID = require('./idGenerator')
+let sendNotify = require('./observerNotification')
 
 class Artista{
 
@@ -12,6 +13,7 @@ class Artista{
     addAlbum(album){
         if(!this.albums.includes(album)){
             this.albums.push(album)
+            sendNotify(this.id,album.name)
         } else{
             throw Error("El album ya existe")
         }
