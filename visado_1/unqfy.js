@@ -55,7 +55,7 @@ class UNQfy {
     let artist = this.getArtistByName(artistName)
     if(!artist.hasAlbumName(albumData.name)){
       let album = new Album(artist.id,albumData.name, albumData.year)
-      artist.albums.push(album)
+      artist.addAlbum(album)
       console.log('Se ha agregado el album con nombre ' + album.name + ' al artista ' + artistName)
       return album
     }else{
