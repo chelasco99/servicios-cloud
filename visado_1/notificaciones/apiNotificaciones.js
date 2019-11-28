@@ -2,6 +2,9 @@ let express = require('express')
 let app = express()
 let bodyParser = require('body-parser')
 let router = express.Router()
+const {google} = require('googleapis');
+const getGmailClient = require('./gmail-tools/gmailClient');
+const createMessage = require('./gmail-tools/createMessage')
 
 //MIDDLEWARE PARA ERRORES
 let { Validator, ValidationError } = require('express-json-validator-middleware');
@@ -41,14 +44,24 @@ let DeleteSuscripcionSchema = {
     }
 }
 
+let NotifySchema = {
+    type: 'object',
+    required:['artistId','subject','message'],
+    properties:{
+        artistId:{type: 'string'},
+        subject:{type:'string'},
+        message:{type:'string'}
+    }
+}
+
 app.use(bodyParser.json())
 app.use('/api',router)
 
 app.use(function(err, req, res, next) {
     if (err instanceof SyntaxError || err instanceof ValidationError) {
-        const error = new errors.BadRequestError()
+        const error = new errors.BadRequest()
         res.status(400)
-        res.json({status: 400, errorCode: error.errorCode})
+        res.json(error.toJSON())
         next();
     }
     else next(err);
@@ -129,6 +142,30 @@ router.route('/subscriptions',validate({body:DeleteSuscripcionSchema})).delete((
             console.log('error: ',error)
          })
 
+})
+
+router.route('/notify',validate({body:NotifySchema})).post((req,res)=>{
+    let gmailClient = getGmailClient()
+    let id = req.body.artistId
+    let subscriptionsArtist = subscriptions.get(id)
+    verifyArtist(id)
+            .then(response =>{
+              if(!response.status && subscriptionsArtist){
+                subscriptionsArtist.map((email) =>{
+                    gmailClient.users.messages.send({
+                        userId:'me',
+                        requestBody:{
+                            raw: createMessage(req.body.subject,req.body.message,email)
+                        }
+                    })
+                })
+                res.status(200)
+                res.json('')
+             } else{
+                 res.status(notFound.status)
+                 res.json(notFound.toJSON())
+             }
+         }).catch(error => console.log('Send notify error: ',error))    
 })
 
 function subscribe(artist,email){
