@@ -10,6 +10,7 @@ const Playlist = require('./exports/playlist.js')
 const AlbumDontExistError = require('./exports/errors/albumDontExistError')
 const ArtistDontExistError = require('./exports/errors/artistDontExistError')
 const TrackExistError = require('./exports/errors/trackExistError')
+const notificarALog = require('./exports/notificationLog')
 
 class UNQfy {
   
@@ -18,65 +19,39 @@ class UNQfy {
       this.playlists = [] ; // Todas las playlist del sistema
     }
 
-  // artistData: objeto JS con los datos necesarios para crear un artista
-  //   artistData.name (string)
-  //   artistData.country (string)
-  // retorna: el nuevo artista creado
   
   addArtist(artistData) {
    if(!this.existArtist(artistData.name)){ 
     let artist = new Artista(artistData.name,artistData.country)
     this.artists.push(artist)
+    notificarALog('Se agrego el artista ' + artistData.name, 'info')
     console.log('Se ha agregado el artista ' + artistData.name + ' con el id ' + artist.id)
     return artist
    } else{
+      notificarALog('No se pudo agregar el artista ' + artistData.name + ' por que ya existe ', 'error')
       throw new ArtistExistError()
    } 
-  
-    
-  /* Crea un artista y lo agrega a unqfy.
-  El objeto artista creado debe soportar (al menos):
-    - una propiedad name (string)
-    - una propiedad country (string)
-  */
   }
 
 
-  // albumData: objeto JS con los datos necesarios para crear un album
-  //   albumData.name (string)
-  //   albumData.year (number)
-  // retorna: el nuevo album creado
   addAlbum(artistName, albumData) {
-  /* Crea un album y lo agrega al artista con id artistId.
-    El objeto album creado debe tener (al menos):
-     - una propiedad name (string)
-     - una propiedad year (number)
-  */
     let artist = this.getArtistByName(artistName)
     if(!artist.hasAlbumName(albumData.name)){
       let album = new Album(artist.id,albumData.name, albumData.year)
       artist.addAlbum(album)
+      notificarALog('Se agrego el album con nombre ' + album.name + ' al artista ' + artistName, 'info')
       console.log('Se ha agregado el album con nombre ' + album.name + ' al artista ' + artistName)
       return album
     }else{
+      notificarALog('No se agrego el album con nombre ' + album.name + ' al artista ' + artistName + ' por que ya existe ', 'error')
       throw new AlbumExistError()
     }
   }
 
 
-  // trackData: objeto JS con los datos necesarios para crear un track
-  //   trackData.name (string)
-  //   trackData.duration (number)
-  //   trackData.genres (lista de strings)
-  // retorna: el nuevo track creado
   addTrack(artistName,albumName, trackData) {
-  /* Crea un track y lo agrega al album con id albumId.
-  El objeto track creado debe tener (al menos):
-      - una propiedad name (string),
-      - una propiedad duration (number),
-      - una propiedad genres (lista de strings)
-  */
     if(!this.existArtist(artistName)){
+      notificarALog('No se pudo agregar el track por que no existe el artista ','error')
       throw new ArtistDontExistError()
     }
     let album = this.getAlbumByNameAndArtistID(albumName,this.getArtistByName(artistName).id)
@@ -84,12 +59,15 @@ class UNQfy {
      if(!album.hasTrack(trackData.name)){
       let track = new Track(album.id,trackData.name,trackData.duration,trackData.genres)
       album.addTrack(track)
+      notificarALog('Se agrego el track ' + track + ' al album ' + album.name + ' del artista ' + artistName, 'info')
       console.log("Se ha agregado el track con nombre " + trackData.name+ " al album con nombre " + album.name + " del artista " + artistName)
       return track
      } else{
+       notificarALog('No se pudo agregar el track por que el album ya lo tiene ','error')
        throw new TrackExistError()
        }
     } else{
+       notificarALog('No se pudo agregar el track por que no existe el album ','error')
        throw new AlbumDontExistError("El Album no existe en el sistema")
       } 
   }
@@ -99,17 +77,7 @@ class UNQfy {
   }
 
 
-  // name: nombre de la playlist
-  // genresToInclude: array de generos
-  // maxDuration: duración en segundos
-  // retorna: la nueva playlist creada
   createPlaylist(name, genresToInclude, maxDuration) {
-    /*** Crea una playlist y la agrega a unqfy. ***
-      El objeto playlist creado debe soportar (al menos):
-        * una propiedad name (string)
-        * un metodo duration() que retorne la duración de la playlist.
-        * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
-    */
       let allTracks = this.getAllTracks()
       let tracksToPlay = allTracks.filter(track => track.hasAtLeastOne(genresToInclude))
       let playlist = new Playlist(name,genresToInclude,maxDuration)
@@ -163,17 +131,6 @@ class UNQfy {
     }
   }
 
-  // getPlaylistByNameDuration(name,durationLT,durationGT) {
-  //   let playlistsName = this.playlists.filter(playlist => playlist.name == name)
-  //   if (playlistsName !== undefined ) {
-  //     let playlist = playlistsName.filter(playlist => playlist.maxDuration < durationLT && playlist.maxDuration > durationGT )
-  //       if ( playlist !== undefined) {
-  //         return playlist
-  //     }else{
-  //       throw Error("No existe las playlists con esas duraciones")
-  //     }
-  //   } 
-  // }
 
   getArtistByName(artistName){
     // Retorna al artista con el nombre indicado, si es que existe
@@ -386,11 +343,14 @@ class UNQfy {
       if(album !== undefined){
         album.removeTrack(trackName)
         this.playlists.map(playlist => playlist.removeTrack(trackName))
+        notificarALog('Se ha eliminado el track ' + trackName + ' del artista ' + artistName.name, 'info')
         console.log("Se ha eliminado el track " + trackName + " del artista " + artistName.name + " correctamente")
       }else{
+        notificarALog('No se pudo eliminar el track ' + trackName + ' ya que no existe en ningun album ','error')
         throw Error("No se pudo eliminar el track " + trackName + " ya que no existe en ningun album")
       } 
     }else{
+      notificarALog('No se pudo eliminar el track ' + trackName + ' ya que no existe ningun el artista ' + artistName, 'error')
       throw Error("No se pudo eliminar el track " + trackName + " ya que no existe ningun el artista " + artistName)
     }
   }
@@ -405,11 +365,14 @@ class UNQfy {
       if ( album !== undefined) {
         artista.albums = artista.albums.filter(album => album.name !== albumName)
         this.playlists.map(playlist => playlist.removeAllTracksAlbum(album))
+        notificarALog('Se ha eliminado el album ' + albumName + ' del artista ' + artistName.name, 'info')
         console.log("Se ha eliminado el album " + albumName + " del artista" + artistName.name + " correctamente")
       }else {
+        notificarALog('No se pudo eliminar el album ' + albumName + ' ya que no existe ', 'error')
         throw new AlbumDontExistError("No se pudo eliminar el album " + albumName + " ya que no existe")
       }
     }else {
+      notificarALog('No se pudo eliminar el album ' + albumName + ' ya que no existe el artista ' + artistName.name, 'error')
       throw new ArtistDontExistError("No se pudo eliminar el album " + albumName +" ya que no existe el artista " + artistName.name)
     }
   }
@@ -422,8 +385,10 @@ class UNQfy {
     if(artist !== undefined){
       this.artists = this.artists.filter(art => art.name !== artist.name)
       this.playlists.map(playlist => playlist.removeArtistAlbums(artist))
+      notificarALog('Se ha eliminado el artista ' + artist.name, 'info')
       console.log("Se ha eliminado el artista " + artist.name + " correctamente")
     }else{
+      notificarALog('No se pudo eliminar el artista ' + artistName.name + ' ya que no existe ', 'error')
       throw Error("No se pudo eliminar el artista " + artistName.name +" ya que no existe")
     }
   }
