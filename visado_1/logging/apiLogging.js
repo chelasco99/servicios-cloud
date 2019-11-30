@@ -36,16 +36,18 @@ router.post('/log', (req,res) => {
     }
 })
 
+
 function enviarLogALoggly(mensaje,tipo) { 
     winston.add(new Loggly({
         token: "f50778c4-efb5-444f-bf79-e4f89df95ede",
-        subdomain: "Ignacio",
+        subdomain: "nachochelasco",
         tags: ["Logg-Service"],
         json: true
     }));
-
+    
     winston.log(mensaje,tipo);
 }
+
 
 function guardarLog(mensaje,tipo) {
     let data = mensaje + ":" + tipo
