@@ -6,6 +6,7 @@ let fs = require('fs'); // para cargar/guarfar unqfy
 let unqmod = require('./unqfy');
 let errors = require('./apiErrors.js')
 let controllers = require('./controllers.js')
+let sendNotify = require('./monitores/observerUNQfy')
 
 // MIDDLEWARE PARA ERRORES
 let { Validator, ValidationError } = require('express-json-validator-middleware');
@@ -238,4 +239,5 @@ router.route('/playlists/:id').delete((req,res)=>{
 
 app.listen(8000, ()=>{
     console.log('Servidor corriendo en el puerto 8000')
+    sendNotify()
 })
