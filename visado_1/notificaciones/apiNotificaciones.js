@@ -5,6 +5,7 @@ let router = express.Router()
 const {google} = require('googleapis');
 const getGmailClient = require('./gmail-tools/gmailClient');
 const createMessage = require('./gmail-tools/createMessage')
+let sendNotify = require('../monitores/observerNotify')
 
 //MIDDLEWARE PARA ERRORES
 let { Validator, ValidationError } = require('express-json-validator-middleware');
@@ -201,6 +202,7 @@ function desubscribe(artist,email){
 
 app.listen(8001, ()=>{
     console.log('Servidor corriendo en el puerto 8001')
+    sendNotify()
 })
 
                      

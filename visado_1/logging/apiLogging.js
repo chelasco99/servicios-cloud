@@ -5,6 +5,7 @@ let router = express.Router()
 let winston = require('winston')
 let {Loggly} = require('winston-loggly-bulk')
 let fs = require('fs')
+let sendNotify = require('../monitores/observerLogging')
 
 app.use(bodyParser.json())
 app.use('/api',router)
@@ -57,4 +58,5 @@ function guardarLog(mensaje,tipo) {
 
 app.listen(8002, ()=>{
     console.log('Servidor corriendo en el puerto 8002')
+    sendNotify()
 })

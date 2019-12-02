@@ -1,11 +1,11 @@
 const fetch = require('node-fetch');
 const Monitor = require('ping-monitor')
-let sendNotify = require('./observerUNQfy')
+let sendNotify = require('./observerNotify')
 
-function checkStatusUNQfy(){
+function checkStatusNotify(){
     const myMonitor = new Monitor({
-        website:'http://localhost:8000',
-        title:'UNQFy',
+        website:'http://localhost:8001',
+        title:'Notify',
         interval: 1
     })
 
@@ -14,18 +14,14 @@ function checkStatusUNQfy(){
     })
 
     myMonitor.on('error', function(res){
-        return fetch('http://localhost:8003/api/statusUNQfy', {
+        return fetch('http://localhost:8003/api/statusNotify', {
             method: 'POST', 
             headers:{
             'Content-Type': 'application/json'
             },
-            body:JSON.stringify({StatusUNQfy: 'OFF'})
+            body:JSON.stringify({StatusNotify: 'OFF'})
         }).then(res => res.json())
-    })
-
-    myMonitor.on('stop',function(website){
-        console.log(website + 'monitor desactivado')
     })
 } 
 
-module.exports = checkStatusUNQfy;
+module.exports = checkStatusNotify;

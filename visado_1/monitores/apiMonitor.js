@@ -3,39 +3,96 @@ let app = express()
 let bodyParser = require('body-parser')
 let router = express.Router()
 
-let checkStatusUNQfy = require('./checkStatusUNQfy.js')
+let checkStatusUNQfy= require('./checkStatusUNQfy.js')
+let checkStatusNotify = require('./checkStatusNotify')
+let checkStatusLogging = require('./checkStatusLogging')
 
 let errors = require('../apiErrors')
-let notFound = new errors.RelatedResourceNotFound()
+
+let { Validator, ValidationError } = require('express-json-validator-middleware');
+let validator = new Validator({allErrors: true});
+let validate = validator.validate;
 
 app.use(bodyParser.json())
 app.use('/api',router)
-app.use(express.json())
 
-app.post('/monitor', (request,response) => {
-    console.log(request.body)
-    const data = request.body
-    response.json({
-        status: data.statusUNQfy
-    });
+app.use(function(err, req, res, next) {
+    if (err instanceof SyntaxError || err instanceof ValidationError) {
+        const error = new errors.BadRequest()
+        res.status(400)
+        res.json(error.toJSON())
+        next();
+    }
+    else next(err);
 });
 
+const status = {
+    StatusUNQfy: 'OFF',
+    StatusNotify: 'OFF',
+    StatusLogging: 'OFF'
+}
 
-router.route('/status').get((req,res)=>{
-    checkStatusUNQfy.then(response => {
-        if(!response.status){
-            res.status(200)
-            res.json({status:200})
-        }else{
-            res.status(notFound.status)
-            res.json(error.toJSON())
-        }
-    }).catch(error=>{
-        res.status(notFound.status)
-        res.json(notFound.toJSON())
-        console.log('error: ',error)
-   })
+let upMonitor = false
+
+checkMonitors()
+
+router.route('/status').get((req,res) =>{
+    res.json(status)
 })
+
+router.route('/statusUNQfy').post((req,res)=>{
+    console.log(req.body)
+    res.json(status.StatusUNQfy = req.body.StatusUNQfy)
+})
+
+router.route('/statusUNQfy').put((req,res) =>{
+    console.log(req.body)
+    res.json(status.StatusUNQfy=req.body.StatusUNQfy)
+})
+
+router.route('/statusNotify').post((req,res)=>{
+    console.log(req.body)
+    res.json(status.StatusNotify = req.body.StatusNotify)
+})
+
+router.route('/statusNotify').put((req,res) =>{
+    console.log(req.body)
+    res.json(status.StatusNotify=req.body.StatusNotify)
+})
+
+router.route('/statusLogging').post((req,res)=>{
+    console.log(req.body)
+    res.json(status.StatusLogging = req.body.StatusLogging)
+})
+
+router.route('/statusLogging').put((req,res) =>{
+    console.log(req.body)
+    res.json(status.StatusLogging=req.body.StatusLogging)
+})
+
+router.get('/upMonitor', (req, res) => {
+    upMonitor = true
+    checkMonitors()
+    console.log("El monitor esta activado")
+    res.status(200)
+    res.json({status: 200, message: "El monitor esta activo"})
+})
+
+router.get('/downMonitor', (req,res) => {
+    upMonitor = false
+    stopMonitors()
+    console.log("El monitor esta desactivado")
+    res.status(200)
+    res.json({status: 200, message: "El monitor esta desactivado"})
+})
+
+function checkMonitors(){
+    if(upMonitor){
+        checkStatusUNQfy()
+        checkStatusNotify()
+        checkStatusLogging()
+    }
+}
 
 app.listen(8003,()=>{
     console.log('Servidor corriendo en el puerto 8003')
