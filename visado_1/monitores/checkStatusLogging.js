@@ -9,19 +9,37 @@ function checkStatusLogging(){
         interval: 1
     })
 
-    myMonitor.on('up',function(res,state){
-        sendNotify()
-    })
+    myMonitor.on('down',function(res,state){
+        if(myMonitor.totalRequestPut > 1){
+            console.log('Logging funcionando con normalidad')
+        }else{
+            myMonitor.resetRequestPost()    
+            return fetch('http://localhost:8003/api/statusLogging', {
+                method:'PUT',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body:JSON.stringify({StatusLogging: 'ON'})
+            }).then(res => res.json())
+            .catch(err => console.error(err))
+        }    
+    });
 
     myMonitor.on('error', function(res){
-        return fetch('http://localhost:8003/api/statusLogging', {
-            method: 'POST', 
-            headers:{
-            'Content-Type': 'application/json'
-            },
-            body:JSON.stringify({StatusLogging: 'OFF'})
-        }).then(res => res.json())
-    })
+        if(myMonitor.totalRequestPost > 1){
+            console.log('Logging notificando a slack')
+        }else{
+            myMonitor.resetRequestPut()
+            return fetch('http://localhost:8003/api/statusLogging', {
+                method: 'POST', 
+                headers:{
+                'Content-Type': 'application/json'
+                },
+                body:JSON.stringify({StatusLogging: 'OFF'})
+            }).then(res => res.json())
+            .catch(err => console.error(err))
+        }
+    })    
 } 
 
 module.exports = checkStatusLogging;

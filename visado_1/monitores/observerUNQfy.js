@@ -8,6 +8,7 @@ function sendNotify(){
         },
         body: JSON.stringify({StatusUNQfy: 'ON'})
     }).then(res => res.json())
+    .catch(err => console.error(err))
 }
 
 module.exports = sendNotify;
