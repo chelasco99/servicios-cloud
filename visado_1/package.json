@@ -5,7 +5,7 @@
   "main": "main.js",
   "dependencies": {
     "chai": "^4.1.2",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-json-validator-middleware": "^2.0.0",
     "googleapis": "^39.2.0",
     "node-fetch": "^2.6.0",
